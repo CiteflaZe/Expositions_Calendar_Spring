@@ -2,6 +2,7 @@ package com.project.calendar.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -18,7 +19,8 @@ public class User {
 
     @NotEmpty(message = "Please provide password")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,15}$")
-    private final String password;
+    @Setter
+    private String password;
 
     @NotEmpty(message = "Please provide name")
     @Pattern(regexp = "^[a-zA-Zа-яА-Яієї']{2,25}$")
