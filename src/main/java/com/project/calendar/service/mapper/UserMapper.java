@@ -12,6 +12,7 @@ public class UserMapper {
         return null;
     }
 
+    //todo null check
     public User mapUserEntityToUser(UserEntity entity) {
         return User.builder()
                 .email(entity.getEmail())

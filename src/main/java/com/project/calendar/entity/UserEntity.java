@@ -21,7 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserEntity {
-    //todo reconsider filed length
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

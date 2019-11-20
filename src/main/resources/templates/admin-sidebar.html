@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User side bar</title>
+
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{css/sidebar.css}" rel="stylesheet"/>
+
+
+
+    <style>
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #120d1a;
+            color: #e2e2e2;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body>
+<nav id="sidebar" th:fragment="sidebar-admin">
+    <ul class="list-unstyled components">
+        <p th:text="#{sidebar.menu}"></p>
+        <li>
+            <a href="?command=expositionForm" th:text="#{admin.sidebar.addExposition}"></a>
+        </li>
+        <li>
+            <a href="?command=hallForm" th:text="#{admin.sidebar.addHall}"></a>
+        </li>
+        <li>
+            <a href="?command=showUsers&currentPage=1&rowCount=15" th:text="#{admin.sidebar.showUsers}"></a>
+        </li>
+        <li>
+            <a href="?command=showHalls&currentPage=1&rowCount=15" th:text="#{admin.sidebar.showHalls}"></a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

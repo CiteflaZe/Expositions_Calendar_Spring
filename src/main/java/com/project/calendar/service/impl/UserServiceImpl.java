@@ -20,9 +20,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder encoder;
-    private UserMapper mapper;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
+    private final UserMapper mapper;
 
     @Override
     public User login(String email, String password) {
