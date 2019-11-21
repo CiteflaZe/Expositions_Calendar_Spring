@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface UserService {
+
     User login(String email, String password);
 
-    User register(User user);
+    void register(User user);
 
     List<User> showAll(Integer currentPage, Integer rowCount);
 }
