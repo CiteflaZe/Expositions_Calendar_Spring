@@ -1,5 +1,7 @@
 package com.project.calendar.domain;
 
+import java.util.Arrays;
+
 public enum Role {
     ADMIN("Admin"), USER("User");
 
@@ -10,19 +12,15 @@ public enum Role {
     }
 
     public String getDescription() {
+
         return description;
     }
-    //todo override valueOf
     public static Role valueOfByName(String roleName){
-        if(roleName == null){
-//            return
+        if(roleName == null ||
+                Arrays.stream(Role.values()).noneMatch(x -> x.name().equals(roleName.toUpperCase()))){
+            return Role.USER;
+        }else {
+            return Role.valueOf(roleName.toUpperCase());
         }
-        return Role.ADMIN;
-    }
-
-    public static void main(String[] args) {
-        String roleName = null;
-        final Role role = Role.valueOf(roleName);
-        System.out.println(role);
     }
 }
