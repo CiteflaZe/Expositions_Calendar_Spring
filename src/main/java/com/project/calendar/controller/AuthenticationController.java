@@ -9,11 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,16 +36,22 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ModelAndView signIn() {
+    public ModelAndView signIn(HttpSession session,
+                               @RequestParam(name = "email") String email,
+                               @RequestParam(name = "password") String password) {
         final ModelAndView mav = new ModelAndView();
 
-        final User admin = userService.login("admin@gmail.com", "admin");
-        System.out.println(admin);
+        final User user = userService.login(email, password);
 
-        if (admin.getRole() == Role.ADMIN) {
-            mav.setViewName("admin-page");
-        }else{
-            mav.setViewName("index");
+        session.setAttribute("user", user);
+
+        if (user.getRole() == Role.ADMIN) {
+            mav.setViewName("redirect:/admin");
+        }else if(user.getRole() == Role.USER){
+            mav.setViewName("redirect:/user");
+        }
+        else{
+            mav.setViewName("redirect:/");
         }
 
         return mav;
@@ -50,21 +60,37 @@ public class AuthenticationController {
     @GetMapping("/register")
     public ModelAndView register() {
         ModelAndView mav = new ModelAndView();
-        User user = User.builder().build();
-        mav.addObject("user", user);
-        mav.setViewName("/register");
+        mav.addObject("user", new User());
+        mav.setViewName("register");
         return mav;
     }
 
     @PostMapping("/register")
-    public ModelAndView registerUser(@Valid User user, BindingResult bindingResult) {
+    public ModelAndView registerUser(@Valid User user, BindingResult bindingResult,
+                                     @RequestParam(name = "passwordConfirmation") String confirmPass) {
         ModelAndView mav = new ModelAndView();
+
         if (bindingResult.hasErrors()) {
+            if(!Objects.equals(user.getPassword(), confirmPass)){
+                mav.addObject("confirmationError", true);
+            }
             mav.setViewName("register");
         } else {
-            mav.addObject("succMessage", "User was registered");
-            mav.setViewName("register");
+            userService.register(user);
+            mav.setViewName("redirect:/");
         }
         return mav;
+    }
+
+    @GetMapping("/logout")
+    public String getLogout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
     }
 }
