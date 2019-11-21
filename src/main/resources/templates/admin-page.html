@@ -2,19 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <script th:src="@{js/bootstrap.min.js}"></script>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/sidebar.css}" rel="stylesheet">
     <title>Welcome to Admin page</title>
 </head>
 <body>
-<div th:insert="header :: header">
-    <div class="wrapper" th:insert="admin-sidebar :: sidebar-admin">
+<div th:replace="header :: header"></div>
+<div>
+    <div class="wrapper">
+        <div th:replace="admin-sidebar :: sidebar"></div>
         <div id="content">
-            <h2 th:text="#{user.welcome}">
-<!--                <c:out value="${sessionScope.user.getName()}"/> <c:out value="${sessionScope.user.getSurname()}"/>-->
-            </h2>
+            <h2 th:text="#{user.welcome} + ' ' + *{name} + ' ' +  *{surname}" th:object="${session.user}"></h2>
             <p th:text="#{user.message}"></p>
         </div>
     </div>
 </div>
+
+
 </body>
 </html>

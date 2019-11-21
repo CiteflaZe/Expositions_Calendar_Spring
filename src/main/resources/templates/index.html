@@ -16,7 +16,7 @@
                             rgba(0, 0, 0, 0.7),
                             rgba(0, 0, 0, 0.7)
                     ),
-                    url("img/bg.jpg");
+                    url("images/bg.jpg");
             -webkit-background-size: cover;
             background-size: cover;
         }
@@ -33,16 +33,22 @@
             <nav class="nav nav-masthead justify-content-center">
                 <a class="nav-link" href="?lang=en">English</a>
                 <a class="nav-link" href="?lang=ru">Русский</a>
-                <a class="nav-link" th:href="@{/login}" th:text="#{signIn.submit}"></a>
+                <a th:if="${session.user == null}" class="nav-link" th:href="@{/login}" th:text="#{signIn.submit}"></a>
+                <a th:if="${session.user != null}" class="nav-link" th:href="@{/logout}" th:text="#{header.logout}"></a>
             </nav>
         </div>
     </header>
     <main role="main" class="inner cover">
         <h1 class="cover-heading" th:text="#{index.brandName}"></h1>
         <p class="lead" th:text="#{index.text}"></p>
-        <p class="lead">
+        <p class="lead" th:object="${session.user}" th:if="${session.user != null}">
+            <a th:if="*{role.getDescription() == 'Admin'}" th:href="@{/admin}" class="btn btn-lg btn-secondary">Back To Admin Menu</a>
+            <a th:if="*{role.getDescription() == 'User'}" th:href="@{/user}" class="btn btn-lg btn-secondary">Back To User Menu</a>
+        </p>
+        <p class="lead" th:if="${session.user == null}">
             <a th:href="@{/register}" class="btn btn-lg btn-secondary" th:text="#{index.register}"> </a>
         </p>
+
     </main>
 
     <footer class="mastfoot mt-auto">

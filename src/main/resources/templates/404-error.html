@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" th:href="@{css/error404.css}" />
+    <title>404 - Not Found</title>
+</head>
+<body>
+<div id="notfound">
+    <div class="notfound">
+        <div class="notfound-404">
+            <h1 th:text="#{404-error.text}"></h1>
+        </div>
+        <h2 th:text="#{404-error.message}"></h2>
+        <a th:href="@{/}" th:text="#{error.homepage}"><span class="arrow"></span></a>
+    </div>
+</div>
+</body>
+</html>

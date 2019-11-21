@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <link th:href="@{css/sidebar.css}" rel="stylesheet">
+    <title>Add Exposition</title>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<div>
+    <div class="wrapper">
+        <div th:replace="admin-sidebar :: sidebar"></div>
+        <div id="content">
+            <form action="admin">
+                <input type="hidden" name="command" value="addExposition">
+                <div class="col-sm-3 my-1">
+                    <label for="title" th:text="#{admin.addExposition.title}"></label>
+                    <input name="title" type="text" class="form-control" id="title"  th:placeholder="#{admin.addExposition.title}" required>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <label for="theme" th:text="#{admin.addExposition.theme}"></label>
+                    <input name="theme" type="text" class="form-control" id="theme" th:placeholder="#{admin.addExposition.theme}" required>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <label for="dateStart" th:text="#{admin.addExposition.startDate}"></label>
+                    <input name="dateStart" type="text" id="dateStart" class="form-control" required>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <label for="dateEnd" th:text="#{admin.addExposition.endDate}"></label>
+                    <input name="dateEnd" type="text" id="dateEnd" class="form-control" required>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <label for="ticketPrice" th:text="#{admin.addExposition.ticketPrice}"></label>
+                    <input name="ticketPrice" type="number" step=".01" class="form-control" id="ticketPrice" th:placeholder="#{admin.addExposition.ticketPrice}" required>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <label for="description" th:text="#{admin.addExposition.description}"></label>
+                    <textarea name="description" type="text" class="form-control" id="description" maxlength="500" rows="5" required></textarea>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <label for="hallId" th:text="#{admin.addExposition.hall}"></label>
+                    <select name="hallId" id="hallId" class="custom-select custom-select-lg mb-3">
+                        <option th:each="hall : ${halls}" th:value="${hall.getId()}" th:text="${hall.getName()}"></option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" th:text="#{admin.submit}"></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+<script>
+    $(document).ready(function () {
+        var date_input_start = $('input[name="dateStart"]');
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input_start.datepicker({
+            format: 'yyyy-mm-dd',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        });
+
+        var date_input_end = $('input[name="dateEnd"]');
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input_end.datepicker({
+            format: 'yyyy-mm-dd',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+
+        })
+    })
+</script>
+
+</body>
+</html>

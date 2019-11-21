@@ -6,8 +6,6 @@
     <link th:href="@{css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{css/sidebar.css}" rel="stylesheet"/>
 
-
-
     <style>
         #sidebar {
             min-width: 250px;
@@ -19,11 +17,11 @@
     </style>
 </head>
 <body>
-<nav id="sidebar" th:fragment="sidebar-admin">
+<nav id="sidebar" th:fragment="sidebar">
     <ul class="list-unstyled components">
         <p th:text="#{sidebar.menu}"></p>
         <li>
-            <a href="?command=expositionForm" th:text="#{admin.sidebar.addExposition}"></a>
+            <a th:href="@{/add-exposition}" th:text="#{admin.sidebar.addExposition}"></a>
         </li>
         <li>
             <a href="?command=hallForm" th:text="#{admin.sidebar.addHall}"></a>

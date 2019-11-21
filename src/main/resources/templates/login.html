@@ -26,8 +26,7 @@
 <!--                            </c:if> </p>-->
                         </div>
                     </div>
-                    <form th:action="@{/login}" method="post" name="login">
-                        <input type="hidden" name="command" value="login">
+                    <form th:action="@{/login}" method="post">
                         <div class="form-group">
                             <label for="email" th:text="#{signIn.email}"></label>
                             <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp" th:placeholder="#{signIn.emailPlaceholder}"
@@ -43,7 +42,7 @@
                         </div>
 
                         <div class="form-group">
-                            <p class="text-center" th:text="#{signIn.register.message}"> <a th:href="@{/register}" id="signup" th:text="#{signIn.register.link}"></a></p>
+                            <p class="text-center" th:text="#{signIn.register.message}"> </p><a th:href="@{/register}" id="signup" th:text="#{signIn.register.link}"></a>
                         </div>
                     </form>
                 </div>
