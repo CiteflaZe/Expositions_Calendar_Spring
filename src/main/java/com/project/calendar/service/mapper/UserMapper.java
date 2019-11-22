@@ -24,6 +24,7 @@ public class UserMapper {
 
     //todo null check
     public User mapUserEntityToUser(UserEntity entity) {
+
         return User.builder()
                 .id(entity.getId())
                 .email(entity.getEmail())

@@ -1,33 +1,44 @@
 package com.project.calendar.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Exposition {
 
-    private final Integer id;
+    private Long id;
 
     @NotEmpty(message = "Please provide exposition title")
-    private final String title;
+    private String title;
 
     @NotEmpty(message = "Please provide exposition theme")
-    private final String theme;
+    private String theme;
 
-    @NotEmpty(message = "Please provide exposition start date")
-    private final LocalDate startDate;
+    @NotNull(message = "Provide valid start date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
 
-    @NotEmpty(message = "Please provide exposition end date")
-    private final LocalDate endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
-    @NotEmpty(message = "Please provide ticket price")
-    private final BigDecimal ticketPrice;
+    @NotNull(message = "Please provide ticket price")
+    private BigDecimal ticketPrice;
 
     @NotEmpty(message = "Please provide exposition description")
-    private final String description;
+    private String description;
+
+    @NotNull(message = "Please provide valid hall")
+    private Hall hall;
+
 }

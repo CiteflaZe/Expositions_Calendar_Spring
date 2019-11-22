@@ -1,25 +1,32 @@
 package com.project.calendar.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Convert;
+import javax.persistence.Converter;
+import javax.persistence.Converts;
 import javax.validation.constraints.NotEmpty;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Hall {
 
-    private final Long id;
+    private Long id;
 
     @NotEmpty(message = "Please provide hall name")
-    private final String name;
+    private String name;
 
     @NotEmpty(message = "Please provide city")
-    private final String city;
+    private String city;
 
     @NotEmpty(message = "Please provide street")
-    private final String street;
+    private String street;
 
     @NotEmpty(message = "Please provide houseNumber")
-    private final Integer houseNumber;
+    private Integer houseNumber;
 }

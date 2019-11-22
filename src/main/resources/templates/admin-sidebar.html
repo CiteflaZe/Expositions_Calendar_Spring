@@ -27,7 +27,7 @@
             <a href="?command=hallForm" th:text="#{admin.sidebar.addHall}"></a>
         </li>
         <li>
-            <a href="?command=showUsers&currentPage=1&rowCount=15" th:text="#{admin.sidebar.showUsers}"></a>
+            <a th:href="@{/showUsers&currentPage=1&rowCount=15}" th:text="#{admin.sidebar.showUsers}"></a>
         </li>
         <li>
             <a href="?command=showHalls&currentPage=1&rowCount=15" th:text="#{admin.sidebar.showHalls}"></a>

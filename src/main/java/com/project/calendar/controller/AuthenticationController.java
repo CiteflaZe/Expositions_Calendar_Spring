@@ -26,7 +26,7 @@ public class AuthenticationController {
     private final UserService userService;
 
     @RequestMapping("/")
-    public String main(Model model) {
+    public String main() {
         return "index";
     }
 
@@ -71,13 +71,14 @@ public class AuthenticationController {
         ModelAndView mav = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
+            mav.setViewName("register");
+
             if(!Objects.equals(user.getPassword(), confirmPass)){
                 mav.addObject("confirmationError", true);
+            }else {
+                userService.register(user);
+                mav.setViewName("redirect:/");
             }
-            mav.setViewName("register");
-        } else {
-            userService.register(user);
-            mav.setViewName("redirect:/");
         }
         return mav;
     }

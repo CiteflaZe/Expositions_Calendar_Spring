@@ -11,39 +11,45 @@
     <div class="wrapper">
         <div th:replace="admin-sidebar :: sidebar"></div>
         <div id="content">
-            <form action="admin">
+            <form th:action="@{/add-exposition}" th:object="${exposition}" method="post">
                 <input type="hidden" name="command" value="addExposition">
                 <div class="col-sm-3 my-1">
                     <label for="title" th:text="#{admin.addExposition.title}"></label>
-                    <input name="title" type="text" class="form-control" id="title"  th:placeholder="#{admin.addExposition.title}" required>
+                    <label class="text-danger" for="title" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></label>
+                    <input name="title" th:field="*{title}" type="text" class="form-control" id="title"  th:placeholder="#{admin.addExposition.title}" required>
                 </div>
                 <div class="col-sm-3 my-1">
                     <label for="theme" th:text="#{admin.addExposition.theme}"></label>
-                    <input name="theme" type="text" class="form-control" id="theme" th:placeholder="#{admin.addExposition.theme}" required>
+                    <label class="text-danger" for="theme" th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}"></label>
+                    <input name="theme" th:field="*{theme}" type="text" class="form-control" id="theme" th:placeholder="#{admin.addExposition.theme}" required>
                 </div>
                 <div class="col-sm-3 my-1">
-                    <label for="dateStart" th:text="#{admin.addExposition.startDate}"></label>
-                    <input name="dateStart" type="text" id="dateStart" class="form-control" required>
+                    <label for="startDate" th:text="#{admin.addExposition.startDate}"></label>
+                    <label class="text-danger" for="startDate" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></label>
+                    <input name="startDate" th:field="*{startDate}" type="date" id="startDate" class="form-control" required>
                 </div>
                 <div class="col-sm-3 my-1">
-                    <label for="dateEnd" th:text="#{admin.addExposition.endDate}"></label>
-                    <input name="dateEnd" type="text" id="dateEnd" class="form-control" required>
+                    <label for="endDate" th:text="#{admin.addExposition.endDate}"></label>
+                    <label class="text-danger" for="endDate" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></label>
+                    <input name="endDate"  th:field="*{endDate}" type="date" id="endDate" class="form-control" required>
                 </div>
                 <div class="col-sm-3 my-1">
                     <label for="ticketPrice" th:text="#{admin.addExposition.ticketPrice}"></label>
-                    <input name="ticketPrice" type="number" step=".01" class="form-control" id="ticketPrice" th:placeholder="#{admin.addExposition.ticketPrice}" required>
+                    <label class="text-danger" for="ticketPrice" th:if="${#fields.hasErrors('ticketPrice')}" th:errors="*{ticketPrice}"></label>
+                    <input name="ticketPrice" th:field="*{ticketPrice}" type="number" step=".01" class="form-control" id="ticketPrice" th:placeholder="#{admin.addExposition.ticketPrice}" required>
                 </div>
                 <div class="col-sm-3 my-1">
                     <label for="description" th:text="#{admin.addExposition.description}"></label>
-                    <textarea name="description" type="text" class="form-control" id="description" maxlength="500" rows="5" required></textarea>
+                    <label class="text-danger" for="description" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></label>
+                    <textarea name="description" th:field="*{description}" type="text" class="form-control" id="description" maxlength="500" rows="5" required></textarea>
                 </div>
                 <div class="col-sm-3 my-1">
-                    <label for="hallId" th:text="#{admin.addExposition.hall}"></label>
-                    <select name="hallId" id="hallId" class="custom-select custom-select-lg mb-3">
-                        <option th:each="hall : ${halls}" th:value="${hall.getId()}" th:text="${hall.getName()}"></option>
+                    <label for="halls" th:text="#{admin.addExposition.hall}"></label>
+                    <label class="text-danger" for="halls" th:if="${#fields.hasErrors('hall')}" th:errors="*{hall}"></label>
+                    <select name="halls" th:field="*{hall}" id="halls" class="custom-select custom-select-lg mb-3">
+                        <option th:each="hallObj : ${halls}" th:value="${hallObj.id}" th:text="${hallObj.getName()}"></option>
                     </select>
                 </div>
-
                 <button type="submit" class="btn btn-primary" th:text="#{admin.submit}"></button>
             </form>
         </div>
@@ -59,7 +65,7 @@
 
 <script>
     $(document).ready(function () {
-        var date_input_start = $('input[name="dateStart"]');
+        var date_input_start = $('input[name="startDate"]');
         var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
         date_input_start.datepicker({
             format: 'yyyy-mm-dd',
@@ -68,7 +74,7 @@
             autoclose: true,
         });
 
-        var date_input_end = $('input[name="dateEnd"]');
+        var date_input_end = $('input[name="endDate"]');
         var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
         date_input_end.datepicker({
             format: 'yyyy-mm-dd',

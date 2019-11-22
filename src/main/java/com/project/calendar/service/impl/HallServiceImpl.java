@@ -2,6 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Hall;
 import com.project.calendar.entity.HallEntity;
+import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.mapper.HallMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("hallService")
@@ -19,11 +21,23 @@ import java.util.stream.Collectors;
 public class HallServiceImpl implements HallService {
 
     private final HallRepository hallRepository;
-    private  final HallMapper mapper;
+    private final HallMapper mapper;
 
     @Override
     public boolean add(Hall hall) {
         return false;
+    }
+
+    @Override
+    public Hall showById(Long id) {
+        final Optional<HallEntity> entity = hallRepository.findById(id);
+
+        if (!entity.isPresent()) {
+            log.warn("There is no hall with this id");
+            throw new InvalidEntityException("There is no hall with this id");
+        }
+
+        return mapper.mapHallEntityToHall(entity.get());
     }
 
     @Override
