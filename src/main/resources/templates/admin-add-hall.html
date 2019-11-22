@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <link th:href="@{css/sidebar.css}" rel="stylesheet"/>
+
     <title>Add Hall</title>
 </head>
 <body>
@@ -9,23 +11,26 @@
 <div class="wrapper">
     <div th:replace="admin-sidebar :: sidebar"></div>
     <div id="content">
-        <form action="admin">
-            <input type="hidden" name="command" value="addHall">
+        <form th:action="@{/add-hall}" th:object="${hall}" method="post">
             <div class="col-sm-3 my-1">
                 <label for="name" th:text="#{admin.addHall.name}"></label>
-                <input name="name" type="text" class="form-control" id="name"  th:placeholder="#{admin.addHall.name}">
+                <label class="text-danger" for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                <input name="name" th:field="*{name}" type="text" class="form-control" id="name"  th:placeholder="#{admin.addHall.name}" required>
             </div>
             <div class="col-sm-3 my-1">
                 <label for="city" th:text="#{admin.addHall.city}"></label>
-                <input name="city" type="text" class="form-control" id="city" th:placeholder="#{admin.addHall.city}">
+                <label class="text-danger" for="city" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></label>
+                <input name="city" th:field="*{city}" type="text" class="form-control" id="city" th:placeholder="#{admin.addHall.city}" required>
             </div>
             <div class="col-sm-3 my-1">
                 <label for="street" th:text="#{admin.addHall.street}"></label>
-                <input name="street" type="text" id="street" class="form-control" th:placeholder="#{admin.addHall.street}">
+                <label class="text-danger" for="name" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></label>
+                <input name="street" th:field="*{street}" type="text" id="street" class="form-control" th:placeholder="#{admin.addHall.street}" required>
             </div>
             <div class="col-sm-3 my-1">
                 <label for="houseNumber" th:text="#{admin.showHalls.houseNumber}"></label>
-                <input name="houseNumber" type="number" min="1" id="houseNumber" class="form-control" >
+                <label class="text-danger" for="houseNumber" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></label>
+                <input name="houseNumber" th:field="*{houseNumber}" type="number" min="1" id="houseNumber" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary" th:text="#{admin.submit}"></button>
         </form>

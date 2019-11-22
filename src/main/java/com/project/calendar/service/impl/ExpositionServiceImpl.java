@@ -22,7 +22,7 @@ public class ExpositionServiceImpl implements ExpositionService {
     private ExpositionMapper mapper;
 
     @Override
-    public void save(Exposition exposition) {
+    public void add(Exposition exposition) {
         if(expositionRepository.findByTitle(exposition.getTitle()).isPresent()){
             log.warn("Exposition with this title already exists");
             throw new InvalidEntityException("Exposition with this title already exists");

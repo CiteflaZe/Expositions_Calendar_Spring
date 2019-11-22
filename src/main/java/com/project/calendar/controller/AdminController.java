@@ -29,11 +29,9 @@ public class AdminController {
     @GetMapping("add-exposition")
     public ModelAndView addExpositionPage() {
         final ModelAndView mav = new ModelAndView();
-        final Exposition exposition = new Exposition();
 
         mav.addObject("halls", hallService.showAll());
-        mav.addObject("exposition", exposition);
-        mav.addObject("hall", new Hall());
+        mav.addObject("exposition", new Exposition());
         mav.setViewName("admin-add-exposition");
 
         return mav;
@@ -43,22 +41,44 @@ public class AdminController {
     public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult) {
         final ModelAndView mav = new ModelAndView();
 
-        System.out.println(exposition);
-
         if (bindingResult.hasErrors()) {
             System.out.println("General Error");
             mav.setViewName("admin-add-exposition");
+        } else if (exposition.getStartDate().compareTo(exposition.getEndDate()) >= 0) {
+            System.out.println("Date error");
+            mav.addObject("dateError", true);
+            mav.setViewName("admin-add-exposition");
         } else {
-            if (exposition.getStartDate().compareTo(exposition.getEndDate()) >= 0) {
-                System.out.println("Date error");
-                mav.addObject("dateError", true);
-                mav.setViewName("admin-add-exposition");
-            } else {
-                System.out.println("Success");
-                expositionService.save(exposition);
-                mav.setViewName("redirect:/admin");
-            }
+            expositionService.add(exposition);
+            mav.setViewName("redirect:/admin");
         }
+
+        return mav;
+    }
+
+    @GetMapping("add-hall")
+    public ModelAndView addHallPage() {
+        final ModelAndView mav = new ModelAndView();
+
+        mav.addObject("hall", new Hall());
+        mav.setViewName("admin-add-hall");
+
+        return mav;
+    }
+
+
+    @PostMapping("add-hall")
+    public ModelAndView addHall(@Valid Hall hall, BindingResult bindingResult) {
+        final ModelAndView mav = new ModelAndView();
+
+        if (bindingResult.hasErrors()) {
+            mav.setViewName("admin-add-hall");
+        } else {
+            System.out.println("Added");
+            hallService.add(hall);
+            mav.setViewName("redirect:/admin");
+        }
+
         return mav;
     }
 

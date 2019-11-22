@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Convert;
-import javax.persistence.Converter;
-import javax.persistence.Converts;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +25,6 @@ public class Hall {
     @NotEmpty(message = "Please provide street")
     private String street;
 
-    @NotEmpty(message = "Please provide houseNumber")
+    @NotNull(message = "Please provide houseNumber")
     private Integer houseNumber;
 }

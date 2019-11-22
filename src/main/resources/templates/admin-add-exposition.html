@@ -26,6 +26,7 @@
                 <div class="col-sm-3 my-1">
                     <label for="startDate" th:text="#{admin.addExposition.startDate}"></label>
                     <label class="text-danger" for="startDate" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></label>
+                    <label class="text-danger" for="startDate" th:if="${dateError}" th:text="#{admin.addExposition.dateError}"></label>
                     <input name="startDate" th:field="*{startDate}" type="date" id="startDate" class="form-control" required>
                 </div>
                 <div class="col-sm-3 my-1">

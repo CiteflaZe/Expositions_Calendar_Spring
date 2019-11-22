@@ -5,7 +5,7 @@ import com.project.calendar.domain.Hall;
 import java.util.List;
 
 public interface HallService {
-    boolean add(Hall hall);
+    void add(Hall hall);
 
     Hall showById(Long id);
 

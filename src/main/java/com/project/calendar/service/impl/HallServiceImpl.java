@@ -24,8 +24,15 @@ public class HallServiceImpl implements HallService {
     private final HallMapper mapper;
 
     @Override
-    public boolean add(Hall hall) {
-        return false;
+    public void add(Hall hall) {
+        if(hall == null){
+            log.warn("Hall is null");
+            throw new IllegalArgumentException("Hall is null");
+        }
+
+        final HallEntity hallEntity = mapper.mapHallToHallEntity(hall);
+
+        hallRepository.save(hallEntity);
     }
 
     @Override
