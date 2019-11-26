@@ -79,7 +79,6 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             mav.setViewName("admin-add-hall");
         } else {
-            System.out.println("Added");
             hallService.add(hall);
             mav.setViewName("redirect:/admin");
         }

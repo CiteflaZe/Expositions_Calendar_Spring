@@ -1,8 +1,12 @@
 package com.project.calendar.controller;
 
+import com.project.calendar.domain.Exposition;
+import com.project.calendar.domain.Hall;
 import com.project.calendar.domain.User;
 import com.project.calendar.exception.DownloadTicketsException;
 import com.project.calendar.exception.EmailAlreadyExistException;
+import com.project.calendar.exception.ExpositionAlreadyExistException;
+import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.IllegalPaginationValuesException;
 import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.exception.InvalidLoginException;
@@ -31,6 +35,24 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
+    @ExceptionHandler(ExpositionAlreadyExistException.class)
+    public ModelAndView handleExpositionAlreadyExistException(){
+        final ModelAndView mav = new ModelAndView("admin-add-exposition");
+        mav.addObject("expositionError", true);
+        mav.addObject("exposition", new Exposition());
+
+        return mav;
+    }
+
+    @ExceptionHandler(HallAlreadyExistException.class)
+    public ModelAndView handleHallAlreadyExistException(){
+        final ModelAndView mav = new ModelAndView("admin-add-hall");
+        mav.addObject("hallError", true);
+        mav.addObject("hall", new Hall());
+
+        return mav;
+    }
+
     @ExceptionHandler(IllegalPaginationValuesException.class)
     public String handleIllegalPaginationValuesException() {
         return "error";
@@ -48,6 +70,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DownloadTicketsException.class)
     public String handleDownloadTicketsException() {
+        return "error";
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(){
         return "error";
     }
 

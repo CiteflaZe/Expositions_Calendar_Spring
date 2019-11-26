@@ -13,7 +13,7 @@
         <div th:replace="admin-sidebar :: sidebar"></div>
         <div id="content">
             <form th:action="@{/admin/add-exposition}" th:object="${exposition}" method="post">
-                <input type="hidden" name="command" value="addExposition">
+                <p class="text-danger" th:if="${expositionError == true}" th:text="#{admin.addExposition.expositionError}"></p>
                 <div class="col-sm-3 my-1">
                     <label for="title" th:text="#{admin.addExposition.title}"></label>
                     <label class="text-danger" for="title" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></label>

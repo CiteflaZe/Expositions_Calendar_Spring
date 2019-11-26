@@ -2,6 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Hall;
 import com.project.calendar.entity.HallEntity;
+import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.HallService;
@@ -28,6 +29,11 @@ public class HallServiceImpl implements HallService {
         if(hall == null){
             log.warn("Hall is null");
             throw new IllegalArgumentException("Hall is null");
+        }
+
+        if(hallRepository.findByName(hall.getName()).isPresent()){
+            log.warn("Hall with this name already exists");
+            throw new HallAlreadyExistException("Hall with this name already exists");
         }
 
         final HallEntity hallEntity = mapper.mapHallToHallEntity(hall);
