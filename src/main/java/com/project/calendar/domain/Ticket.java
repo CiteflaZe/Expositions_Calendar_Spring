@@ -23,7 +23,4 @@ public class Ticket {
 
     @NotEmpty(message = "Please provide exposition")
     private final Exposition exposition;
-
-    @NotEmpty(message = "Please provide hall")
-    private final Hall hall;
 }

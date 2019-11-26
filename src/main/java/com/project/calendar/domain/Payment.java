@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Payment {
 
-    private final Integer id;
+    private final Long id;
 
     @NotEmpty(message = "Please provide payment time")
     private final LocalDateTime paymentTime;

@@ -6,7 +6,6 @@ import com.project.calendar.domain.User;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.UserService;
-import com.project.calendar.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +31,7 @@ public class AdminController {
         return "admin-page";
     }
 
-    @GetMapping("add-exposition")
+    @GetMapping("/add-exposition")
     public ModelAndView addExpositionPage() {
         final ModelAndView mav = new ModelAndView();
 
@@ -43,7 +42,7 @@ public class AdminController {
         return mav;
     }
 
-    @PostMapping("add-exposition")
+    @PostMapping("/add-exposition")
     public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult) {
         final ModelAndView mav = new ModelAndView();
 
@@ -88,19 +87,20 @@ public class AdminController {
         return mav;
     }
 
-    @GetMapping("show-users")
+    @GetMapping("users")
     public ModelAndView showUsers(@RequestParam("page") Integer page,
                                   @RequestParam("rowCount") Integer rowCount) {
         final ModelAndView mav = new ModelAndView();
 
-        int numberOfPage = (int) Math.ceil(userService.showEntriesAmount() * 1.0 / rowCount);
+        int numberOfPage = (int) Math.ceil(expositionService.showEntriesAmount() * 1.0 / rowCount);
         final List<User> users = userService.showAll(page - 1, rowCount);
 
         mav.addObject("users", users);
+        mav.addObject("command", "users");
         mav.addObject("numberOfPages", numberOfPage);
         mav.addObject("page", page);
         mav.addObject("rowCount", rowCount);
-        mav.setViewName("admin-show-users");
+        mav.setViewName("admin-users");
 
         return mav;
     }

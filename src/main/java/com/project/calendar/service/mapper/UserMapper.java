@@ -5,24 +5,22 @@ import com.project.calendar.domain.User;
 import com.project.calendar.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class UserMapper {
 
     public UserEntity mapUserToUserEntity(User user) {
-        //todo do something about path
-        final com.project.calendar.entity.Role role = new com.project.calendar.entity.Role();
-        role.setId(2);
 
         final UserEntity entity = new UserEntity();
         entity.setEmail(user.getEmail());
         entity.setPassword(user.getPassword());
         entity.setName(user.getName());
         entity.setSurname(user.getSurname());
-        entity.setRole(role);
+        entity.setRole(Role.USER);
         return entity;
     }
 
-    //todo null check
     public User mapUserEntityToUser(UserEntity entity) {
 
         return User.builder()
@@ -30,9 +28,18 @@ public class UserMapper {
                 .email(entity.getEmail())
                 .name(entity.getName())
                 .surname(entity.getSurname())
-//                .password(entity.getPassword())
-                .role(Role.valueOfByName(entity.getRole().getRoleName().toUpperCase()))
+                .password(null)
+                .role(getRole(entity))
                 .build();
+    }
+
+    private Role getRole(UserEntity entity) {
+        return Optional.ofNullable(entity)
+                .map(UserEntity::getRole)
+                .map(Role::name)
+                .map(String::toUpperCase)
+                .map(Role::valueOfByName)
+                .orElse(null);
     }
 
 }

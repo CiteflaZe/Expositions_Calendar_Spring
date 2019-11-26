@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum Role {
     ADMIN("Admin"), USER("User");
 
-    String description;
+    private String description;
 
     Role(String description) {
         this.description = description;
@@ -16,11 +16,9 @@ public enum Role {
         return description;
     }
     public static Role valueOfByName(String roleName){
-        if(roleName == null ||
-                Arrays.stream(Role.values()).noneMatch(x -> x.name().equals(roleName.toUpperCase()))){
-            return Role.USER;
-        }else {
-            return Role.valueOf(roleName.toUpperCase());
-        }
+        return Arrays.stream(Role.values())
+                .filter(x -> x.name().equalsIgnoreCase(roleName))
+                .findAny()
+                .orElse(Role.USER);
     }
 }

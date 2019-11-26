@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:fragment="style">
     <title>User side bar</title>
 
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{css/sidebar.css}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/sidebar.css}" rel="stylesheet"/>
 
     <style>
         #sidebar {
@@ -27,7 +27,7 @@
             <a th:href="@{/add-hall}" th:text="#{admin.sidebar.addHall}"></a>
         </li>
         <li>
-            <a th:href="@{/show-users(page=1, rowCount=15)}" th:text="#{admin.sidebar.showUsers}"></a>
+            <a th:href="@{/users(page=1, rowCount=15)}" th:text="#{admin.sidebar.showUsers}"></a>
         </li>
         <li>
             <a href="?command=showHalls&currentPage=1&rowCount=15" th:text="#{admin.sidebar.showHalls}"></a>

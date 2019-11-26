@@ -1,11 +1,14 @@
 package com.project.calendar.entity;
 
+import com.project.calendar.domain.Status;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,8 +35,8 @@ public class PaymentEntity {
     @Column(name = "payment_time", nullable = false)
     private LocalDateTime paymentTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 50)
     private Status status;
 
     @Column(name = "tickets_amount", nullable = false)

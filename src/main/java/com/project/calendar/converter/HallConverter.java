@@ -1,4 +1,4 @@
-package com.project.calendar.convertor;
+package com.project.calendar.converter;
 
 import com.project.calendar.domain.Hall;
 import com.project.calendar.service.HallService;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class HallConverter implements Converter<String, Hall> {
 
-    HallService hallService;
+    private HallService hallService;
 
     @Override
     public Hall convert(String id) {

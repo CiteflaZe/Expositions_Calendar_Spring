@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>User side bar</title>
-
-    <link th:href="@{css/sidebar.css}" rel="stylesheet"/>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet"/>
-    <script th:src="@{js/bootstrap.min.js}"></script>
+<head th:fragment="style">
+    <title>User sidebar</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/sidebar.css}" rel="stylesheet"/>
 </head>
 <body>
 <nav id="sidebar" th:fragment="sidebar">
     <ul class="list-unstyled components">
         <p th:text="#{sidebar.menu}"></p>
         <li>
-            <a href="?command=showExpositions&currentPage=1&rowCount=15" th:text="#{user.sidebar.showExpos}"></a>
+            <a th:href="@{/view-expositions(page=1, rowCount=15)}" th:text="#{user.sidebar.showExpos}"></a>
         </li>
         <li>
-            <a href="?command=showTickets" th:text="#{user.sidebar.showTickets}"></a>
+            <a th:href="@{/tickets}" th:text="#{user.sidebar.showTickets}"></a>
         </li>
     </ul>
 </nav>

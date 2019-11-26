@@ -1,11 +1,14 @@
 package com.project.calendar.entity;
 
+import com.project.calendar.domain.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,8 +42,8 @@ public class UserEntity {
     @Column(name = "surname", nullable = false, length = 55)
     private String surname;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false, columnDefinition = "integer default 2")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 50)
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -12,14 +12,14 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
 
 @Service("userService")
 @AllArgsConstructor(onConstructor = @_(@Autowired))
@@ -41,10 +41,10 @@ public class UserServiceImpl implements UserService {
 
         if (encoder.matches(password, entity.get().getPassword())) {
             return mapper.mapUserEntityToUser(entity.get());
-        } else {
-            log.warn("Incorrect password");
-            throw new InvalidLoginException("Incorrect password");
         }
+
+        log.warn("Incorrect password");
+        throw new InvalidLoginException("Incorrect email or password");
     }
 
     @Override
@@ -66,9 +66,10 @@ public class UserServiceImpl implements UserService {
 
         Page<UserEntity> entities = userRepository.findAll(pageRequest);
 
-        return entities.isEmpty() ? Collections.emptyList() : entities.stream()
-                .map(mapper::mapUserEntityToUser)
-                .collect(Collectors.toList());
+        return entities.isEmpty() ? emptyList() :
+                entities.stream()
+                        .map(mapper::mapUserEntityToUser)
+                        .collect(Collectors.toList());
     }
 
     @Override

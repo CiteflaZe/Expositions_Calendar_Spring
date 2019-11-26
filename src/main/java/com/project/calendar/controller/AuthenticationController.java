@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     private final UserService userService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String main() {
         return "index";
     }

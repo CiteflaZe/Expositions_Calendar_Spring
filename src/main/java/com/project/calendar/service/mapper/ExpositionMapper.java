@@ -42,6 +42,7 @@ public class ExpositionMapper {
         }else{
             return Hall.builder()
                     .id(entity.getHall().getId())
+                    .name(entity.getHall().getName())
                     .build();
         }
     }

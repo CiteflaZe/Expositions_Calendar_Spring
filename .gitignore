@@ -8,6 +8,7 @@ mvnw.cmd
 !**/src/test/**
 logs/
 *.log
+tickets/
 
 ### STS ###
 .apt_generated
