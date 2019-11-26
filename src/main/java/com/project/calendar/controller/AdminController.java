@@ -31,7 +31,7 @@ public class AdminController {
         return "admin-page";
     }
 
-    @GetMapping("/add-exposition")
+    @GetMapping("admin/add-exposition")
     public ModelAndView addExpositionPage() {
         final ModelAndView mav = new ModelAndView();
 
@@ -42,7 +42,7 @@ public class AdminController {
         return mav;
     }
 
-    @PostMapping("/add-exposition")
+    @PostMapping("admin/add-exposition")
     public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult) {
         final ModelAndView mav = new ModelAndView();
 
@@ -61,7 +61,7 @@ public class AdminController {
         return mav;
     }
 
-    @GetMapping("add-hall")
+    @GetMapping("admin/add-hall")
     public ModelAndView addHallPage() {
         final ModelAndView mav = new ModelAndView();
 
@@ -72,7 +72,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("add-hall")
+    @PostMapping("admin/add-hall")
     public ModelAndView addHall(@Valid Hall hall, BindingResult bindingResult) {
         final ModelAndView mav = new ModelAndView();
 
@@ -87,7 +87,7 @@ public class AdminController {
         return mav;
     }
 
-    @GetMapping("users")
+    @GetMapping("admin/users")
     public ModelAndView showUsers(@RequestParam("page") Integer page,
                                   @RequestParam("rowCount") Integer rowCount) {
         final ModelAndView mav = new ModelAndView();
@@ -96,16 +96,13 @@ public class AdminController {
         final List<User> users = userService.showAll(page - 1, rowCount);
 
         mav.addObject("users", users);
-        mav.addObject("command", "users");
+        mav.addObject("command", "admin/users");
         mav.addObject("numberOfPages", numberOfPage);
         mav.addObject("page", page);
         mav.addObject("rowCount", rowCount);
         mav.setViewName("admin-users");
 
         return mav;
-    }
-
-    public static void main(String[] args) {;
     }
 
 }

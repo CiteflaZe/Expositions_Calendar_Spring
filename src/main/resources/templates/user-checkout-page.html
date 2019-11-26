@@ -4,7 +4,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link th:href="@{css/paymentPage.css}" rel="stylesheet">
+    <link th:href="@{/css/paymentPage.css}" rel="stylesheet">
 
     <title>Checkout</title>
 
@@ -20,7 +20,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <form th:action="@{/payment-process}" method="post" role="form">
+                    <form th:action="@{/user/payment-process}" method="post" role="form">
                         <div class="form-group">
                             <label for="cardNumber" th:text="#{user.paymentPage.cardNumber}"></label>
                             <div class="input-group">

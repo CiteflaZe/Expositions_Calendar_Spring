@@ -49,7 +49,7 @@ public class UserController {
         return "user-page";
     }
 
-    @GetMapping("/view-expositions")
+    @GetMapping("user/expositions")
     public ModelAndView viewExpositions(@RequestParam("page") Integer page,
                                         @RequestParam("rowCount") Integer rowCount) {
         final ModelAndView mav = new ModelAndView();
@@ -67,7 +67,7 @@ public class UserController {
         return mav;
     }
 
-    @PostMapping("/choose-date")
+    @PostMapping("user/choose-date")
     public ModelAndView chooseDate(@RequestParam("exposition") Exposition exposition, HttpSession session) {
         final ModelAndView mav = new ModelAndView();
 
@@ -77,7 +77,7 @@ public class UserController {
         return mav;
     }
 
-    @PostMapping("/checkout")
+    @PostMapping("user/checkout")
     public ModelAndView checkout(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                  @RequestParam("tickets") Integer ticketAmount,
                                  HttpSession session) {
@@ -94,7 +94,7 @@ public class UserController {
         return mav;
     }
 
-    @PostMapping("/payment-process")
+    @PostMapping("user/payment-process")
     public ModelAndView processPayment(HttpSession session) {
         final ModelAndView mav = new ModelAndView();
 
@@ -129,12 +129,12 @@ public class UserController {
         session.removeAttribute("date");
         session.removeAttribute("ticketAmount");
 
-        mav.setViewName("redirect:/tickets");
+        mav.setViewName("redirect:/user/tickets");
 
         return mav;
     }
 
-    @GetMapping("/tickets")
+    @GetMapping("user/tickets")
     public ModelAndView showTickets(HttpSession session) {
         final ModelAndView mav = new ModelAndView();
 
@@ -159,7 +159,7 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/download")
+    @GetMapping("user/download")
     public void downloadFileFromLocal(HttpServletResponse response, HttpSession session, @RequestParam("paymentId") Long paymentId) {
         final Long userId = ((User) session.getAttribute("user")).getId();
         final List<Ticket> tickets = ticketService.showAllByPaymentIdAndUserId(paymentId, userId);
@@ -185,18 +185,5 @@ public class UserController {
         }
 
         file.delete();
-
-//        Path path = Paths.get("tickets/" + filePath);
-//        Resource resource = null;
-//        try {
-//            resource = new UrlResource(path.toUri());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType(MediaType.APPLICATION_PDF_VALUE))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-//                .body(resource);
     }
 }

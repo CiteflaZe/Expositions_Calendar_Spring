@@ -30,7 +30,7 @@
                 <td th:text="${ticketsAmount.get(stat.index)}"></td>
                 <td th:text="${ticket.getValidDate()}"></td>
                 <td>
-                    <form th:action="@{/download}" method="get">
+                    <form th:action="@{/user/download}" method="get">
                         <input type="hidden" name="paymentId" th:value="${ticket.getPayment().getId()}"/>
                         <button type="submit" class="btn btn-success"><i class="fa fa-download" aria-hidden="true"></i></button>
                     </form>

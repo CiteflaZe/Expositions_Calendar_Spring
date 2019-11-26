@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link th:href="@{css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 
     <title>Register</title>
 </head>
@@ -19,9 +19,6 @@
                 <div class="logo mb-3">
                     <div class="col-md-12 text-center">
                         <h1>Signup</h1>
-<!--                        <p style="color: red"><c:if test="${not empty registerMessage}">-->
-<!--                            <c:out value="${registerMessage}"/>-->
-<!--                        </c:if></p>-->
                     </div>
                 </div>
                 <form th:action="@{/register}" th:object="${user}" name="registration" method="post">
