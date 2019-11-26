@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <form th:action="@{/register}" th:object="${user}" name="registration" method="post">
-                    <input type="hidden" name="command" value="register">
+                    <p class="text-danger" th:if="${registerError == true}" th:text="#{register.errorMessage}"></p>
                     <div class="form-group">
                         <label for="name" th:text="#{register.name}"></label>
                         <label class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>

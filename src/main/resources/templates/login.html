@@ -23,6 +23,7 @@
                         </div>
                     </div>
                     <form th:action="@{/login}" method="post">
+                        <p class="text-danger" th:if="${loginError == true}" th:text="#{signIn.errorMessage}"></p>
                         <div class="form-group">
                             <label for="email" th:text="#{signIn.email}"></label>
                             <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp" th:placeholder="#{signIn.emailPlaceholder}"

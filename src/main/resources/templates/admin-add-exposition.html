@@ -12,7 +12,7 @@
     <div class="wrapper">
         <div th:replace="admin-sidebar :: sidebar"></div>
         <div id="content">
-            <form th:action="@{/add-exposition}" th:object="${exposition}" method="post">
+            <form th:action="@{/admin/add-exposition}" th:object="${exposition}" method="post">
                 <input type="hidden" name="command" value="addExposition">
                 <div class="col-sm-3 my-1">
                     <label for="title" th:text="#{admin.addExposition.title}"></label>

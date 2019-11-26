@@ -10,7 +10,7 @@
 <div class="wrapper">
     <div th:replace="admin-sidebar :: sidebar"></div>
     <div id="content">
-        <form th:action="@{/add-hall}" th:object="${hall}" method="post">
+        <form th:action="@{/admin/add-hall}" th:object="${hall}" method="post">
             <div class="col-sm-3 my-1">
                 <label for="name" th:text="#{admin.addHall.name}"></label>
                 <label class="text-danger" for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
