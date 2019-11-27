@@ -104,4 +104,23 @@ public class AdminController {
         return mav;
     }
 
+    @GetMapping("admin/halls")
+    public ModelAndView showHalls(){
+        final ModelAndView mav = new ModelAndView("admin-halls");
+
+        final List<Hall> halls = hallService.showAll();
+        mav.addObject("halls", halls);
+
+        return mav;
+    }
+
+    @GetMapping("admin/expositions")
+    public ModelAndView showExpositions(){
+        final ModelAndView mav = new ModelAndView("admin-expositions");
+
+        final List<Exposition> expositions = expositionService.showAll(0, 15);
+        mav.addObject("expositions", expositions);
+
+        return mav;
+    }
 }

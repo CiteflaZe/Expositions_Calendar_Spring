@@ -9,7 +9,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="wrapper">
-    <div th:replace="user-sidebar :: sidebar"></div>
+    <div th:replace="admin-sidebar :: sidebar"></div>
     <div id="content">
         <table class="table table-striped table-responsive-md btn-table">
             <thead>
@@ -26,13 +26,12 @@
             <tr th:each="hall : ${halls}">
                 <td th:text="${hall.getId()}"></td>
                 <td th:text="${hall.getName()}"></td>
-                <td th:text="${hell.getCity()}"></td>
-                <td th:text="${hall.getStreet}"></td>
-                <td th:text="${hell.getHouseNumber}"></td>
+                <td th:text="${hall.getCity()}"></td>
+                <td th:text="${hall.getStreet()}"></td>
+                <td th:text="${hall.getHouseNumber()}"></td>
             </tr>
             </tbody>
         </table>
-        <div th:replace="admin-pagination :: pagination"></div>
     </div>
 </div>
 </body>

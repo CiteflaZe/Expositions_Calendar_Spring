@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <th:block th:insert="admin-sidebar :: style"></th:block>
+    <title>Expositions</title>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<div class="wrapper">
+    <div th:replace="admin-sidebar :: sidebar"></div>
+    <div id="content">
+        <table class="table table-striped table-responsive-md btn-table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" th:text="#{user.showExpositions.title}"></th>
+                <th scope="col" th:text="#{user.showExpositions.theme}"></th>
+                <th scope="col" th:text="#{user.showExpositions.start}"></th>
+                <th scope="col" th:text="#{user.showExpositions.end}"></th>
+                <th scope="col" th:text="#{user.showExpositions.ticketPrice}"></th>
+                <th scope="col" th:text="#{user.showExpositions.description}" style="width:30%"></th>
+                <th scope="col" th:text="#{user.showExpositions.hall}"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="exposition : ${expositions}">
+                <td th:text="${exposition.getTitle()}"></td>
+                <td th:text="${exposition.getTheme()}"></td>
+                <td th:text="${exposition.getStartDate()}"></td>
+                <td th:text="${exposition.getEndDate()}"></td>
+                <td th:text="${exposition.getTicketPrice()}"></td>
+                <td th:text="${exposition.getDescription()}"></td>
+                <td th:text="${exposition.getHall().getName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
