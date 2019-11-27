@@ -20,7 +20,7 @@ public class HallMapperTest {
     private final HallMapper mapper = new HallMapper();
 
     @Test
-    public void mapHallToHallEntityShouldReturnEntity() {
+    public void mapHallToHallEntityShouldReturnHallEntity() {
         final HallEntity actual = mapper.mapHallToHallEntity(HALL);
 
         assertThat(actual.getName(), is(NAME));
@@ -30,7 +30,7 @@ public class HallMapperTest {
     }
 
     @Test
-    public void mapHallEntityToHall() {
+    public void mapHallEntityToHallShouldReturnHall() {
         final Hall actual = mapper.mapHallEntityToHall(ENTITY);
 
         assertThat(actual.getId(), is(ID));

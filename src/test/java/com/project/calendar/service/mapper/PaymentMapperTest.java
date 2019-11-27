@@ -30,7 +30,7 @@ public class PaymentMapperTest {
     private PaymentMapper mapper = new PaymentMapper();
 
     @Test
-    public void mapPaymentToPaymentEntityShouldReturn() {
+    public void mapPaymentToPaymentEntityShouldReturnPaymentEntity() {
         final PaymentEntity actual = mapper.mapPaymentToPaymentEntity(PAYMENT);
 
         assertThat(actual.getPaymentTime(), is(PAYMENT_TIME));
@@ -42,7 +42,7 @@ public class PaymentMapperTest {
     }
 
     @Test
-    public void mapPaymentEntityToPayment() {
+    public void mapPaymentEntityToPaymentShouldReturnPayment() {
         final Payment actual = mapper.mapPaymentEntityToPayment(PAYMENT_ENTITY);
 
         assertThat(actual.getId(), is(ID));

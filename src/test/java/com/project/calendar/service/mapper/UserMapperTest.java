@@ -24,7 +24,7 @@ public class UserMapperTest {
     private UserMapper mapper = new UserMapper();
 
     @Test
-    public void mapUserToUserEntityShouldReturnEntity() {
+    public void mapUserToUserEntityShouldReturnUserEntity() {
         final UserEntity actual = mapper.mapUserToUserEntity(USER);
 
         assertThat(actual.getEmail(), is(EMAIL));

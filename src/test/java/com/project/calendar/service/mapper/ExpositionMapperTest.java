@@ -40,7 +40,7 @@ public class ExpositionMapperTest {
     }
 
     @Test
-    public void mapExpositionToExpositionEntity() {
+    public void mapExpositionToExpositionEntityShouldReturnExpositionEntity() {
         final ExpositionEntity actual = mapper.mapExpositionToExpositionEntity(EXPOSITION);
 
         assertThat(actual.getTitle(), is(TITLE));
