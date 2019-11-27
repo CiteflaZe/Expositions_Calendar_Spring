@@ -38,12 +38,6 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> showByUserId(Long id) {
-        final List<TicketEntity> tickets = ticketRepository.findAllByUserId(id);
-        return mapTicketEntityListToTicketList(tickets);
-    }
-
-    @Override
     public Ticket showOneByPaymentId(Long id) {
         final Optional<TicketEntity> ticketEntity = ticketRepository.findFirstByPaymentId(id);
 
