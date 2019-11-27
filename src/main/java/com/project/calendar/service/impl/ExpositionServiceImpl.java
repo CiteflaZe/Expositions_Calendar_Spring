@@ -30,7 +30,7 @@ public class ExpositionServiceImpl implements ExpositionService {
 
     @Override
     public void add(Exposition exposition) {
-        if(exposition == null){
+        if (exposition == null) {
             log.warn("Exposition is null");
             throw new IllegalArgumentException("Exposition is null");
         }
@@ -50,7 +50,7 @@ public class ExpositionServiceImpl implements ExpositionService {
     public Exposition showById(Long id) {
         final Optional<ExpositionEntity> entity = expositionRepository.findById(id);
 
-        if(!entity.isPresent()){
+        if (!entity.isPresent()) {
             log.warn("There is no exposition with this id");
             throw new InvalidEntityException("There is no exposition with this id");
         }

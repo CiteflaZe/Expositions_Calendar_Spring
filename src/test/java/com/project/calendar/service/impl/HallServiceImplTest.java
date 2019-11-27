@@ -6,7 +6,6 @@ import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.mapper.HallMapper;
-import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -15,12 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.*;
-import static org.hamcrest.CoreMatchers.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
@@ -97,7 +96,7 @@ public class HallServiceImplTest {
     }
 
     @Test
-    public void showAllShouldReturnEmptyList(){
+    public void showAllShouldReturnEmptyList() {
         when(hallRepository.findAll()).thenReturn(emptyList());
 
         final List<Hall> halls = hallService.showAll();
@@ -106,7 +105,7 @@ public class HallServiceImplTest {
     }
 
     @Test
-    public void showAllShouldReturnHallList(){
+    public void showAllShouldReturnHallList() {
         when(hallRepository.findAll()).thenReturn(singletonList(HALL_ENTITY));
         when(mapper.mapHallEntityToHall(HALL_ENTITY)).thenReturn(HALL);
 

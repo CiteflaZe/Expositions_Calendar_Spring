@@ -8,8 +8,6 @@ import com.project.calendar.exception.ExpositionAlreadyExistException;
 import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.ExpositionRepository;
 import com.project.calendar.service.mapper.ExpositionMapper;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.Is;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -22,8 +20,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -80,7 +78,7 @@ public class ExpositionServiceImplTest {
     }
 
     @Test
-    public void showByIdShouldThrowInvalidEntityException(){
+    public void showByIdShouldThrowInvalidEntityException() {
         expectedException.expect(InvalidEntityException.class);
         expectedException.expectMessage("There is no exposition with this id");
         when(expositionRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -89,7 +87,7 @@ public class ExpositionServiceImplTest {
     }
 
     @Test
-    public void showByIdShouldReturnExposition(){
+    public void showByIdShouldReturnExposition() {
         when(expositionRepository.findById(anyLong())).thenReturn(Optional.of(EXPOSITION_ENTITY));
         when(mapper.mapExpositionEntityToExposition(EXPOSITION_ENTITY)).thenReturn(EXPOSITION);
 
@@ -100,7 +98,7 @@ public class ExpositionServiceImplTest {
     }
 
     @Test
-    public void showEntriesAmountShouldReturnEntriesAmount(){
+    public void showEntriesAmountShouldReturnEntriesAmount() {
         when(expositionRepository.count()).thenReturn(4L);
 
         final Long actual = expositionService.showEntriesAmount();

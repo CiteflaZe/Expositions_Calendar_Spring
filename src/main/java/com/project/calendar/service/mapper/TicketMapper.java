@@ -34,6 +34,7 @@ public class TicketMapper {
 
     public Ticket mapTicketEntityToTicket(TicketEntity entity){
         final Hall hall = Hall.builder()
+                .id(entity.getExposition().getHall().getId())
                 .name(entity.getExposition().getHall().getName())
                 .build();
 

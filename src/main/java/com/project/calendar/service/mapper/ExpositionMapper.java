@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExpositionMapper {
 
-    public Exposition mapExpositionEntityToExposition(ExpositionEntity entity){
+    public Exposition mapExpositionEntityToExposition(ExpositionEntity entity) {
         return Exposition.builder()
                 .id(entity.getId())
                 .title(entity.getTitle())
@@ -22,7 +22,7 @@ public class ExpositionMapper {
                 .build();
     }
 
-    public ExpositionEntity mapExpositionToExpositionEntity(Exposition exposition){
+    public ExpositionEntity mapExpositionToExpositionEntity(Exposition exposition) {
         final ExpositionEntity entity = new ExpositionEntity();
 
         entity.setTitle(exposition.getTitle());
@@ -36,10 +36,10 @@ public class ExpositionMapper {
         return entity;
     }
 
-    private Hall createHall(ExpositionEntity entity){
-        if(entity.getHall() == null){
+    private Hall createHall(ExpositionEntity entity) {
+        if (entity.getHall() == null) {
             return null;
-        }else{
+        } else {
             return Hall.builder()
                     .id(entity.getHall().getId())
                     .name(entity.getHall().getName())
@@ -47,10 +47,10 @@ public class ExpositionMapper {
         }
     }
 
-    private HallEntity createHallEntity(Exposition exposition){
-        if(exposition.getHall() == null){
+    private HallEntity createHallEntity(Exposition exposition) {
+        if (exposition.getHall() == null) {
             return null;
-        }else{
+        } else {
             final HallEntity hallEntity = new HallEntity();
             hallEntity.setId(exposition.getHall().getId());
 
