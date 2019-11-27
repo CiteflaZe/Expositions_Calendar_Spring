@@ -6,8 +6,6 @@ import com.project.calendar.exception.EmailAlreadyExistException;
 import com.project.calendar.exception.InvalidLoginException;
 import com.project.calendar.repository.UserRepository;
 import com.project.calendar.service.mapper.UserMapper;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,12 +14,17 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.geo.GeoPage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -62,7 +65,7 @@ public class UserServiceImplTest {
     @Test
     public void loginShouldThrowInvalidLoginExceptionWithIncorrectPassword() {
         expectedException.expect(InvalidLoginException.class);
-        expectedException.expectMessage("Incorrect password");
+        expectedException.expectMessage("Incorrect email or password");
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(ENTITY));
         when(encoder.matches(anyString(), anyString())).thenReturn(false);
@@ -85,7 +88,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void registerShouldThrowEmailAlreadyExistException(){
+    public void registerShouldThrowEmailAlreadyExistException() {
         expectedException.expect(EmailAlreadyExistException.class);
         expectedException.expectMessage("User with such email already exist");
 
@@ -95,7 +98,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void registerShouldRegisterUser(){
+    public void registerShouldRegisterUser() {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
         when(encoder.encode(anyString())).thenReturn("user19");
         when(mapper.mapUserToUserEntity(any(User.class))).thenReturn(ENTITY);
@@ -103,6 +106,36 @@ public class UserServiceImplTest {
         userService.register(USER);
 
         verify(userRepository).save(any(UserEntity.class));
+    }
+
+    @Test
+    public void showAllShouldReturnEmptyList() {
+        when(userRepository.findAll(any(PageRequest.class))).thenReturn(Page.empty());
+
+        final List<User> users = userService.showAll(1, 3);
+
+        verify(userRepository).findAll(any(PageRequest.class));
+        assertThat(users, is(Collections.emptyList()));
+    }
+
+//    @Test
+//    public void showAllShouldReturnListOfUsers(){
+//        when(userRepository.findAll(any(PageRequest.class))).thenReturn();
+//
+//        final List<User> users = userService.showAll(1, 3);
+//
+//        verify(userRepository).findAll(any(PageRequest.class));
+//
+//    }
+
+    @Test
+    public void showEntriesAmountShouldReturnAmountOfRowsInDatabase() {
+        when(userRepository.count()).thenReturn(5L);
+
+        final Long actual = userService.showEntriesAmount();
+
+        verify(userRepository).count();
+        assertThat(actual, is(5L));
     }
 
     private static User initUser() {

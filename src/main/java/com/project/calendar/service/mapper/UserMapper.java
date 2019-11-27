@@ -11,7 +11,6 @@ import java.util.Optional;
 public class UserMapper {
 
     public UserEntity mapUserToUserEntity(User user) {
-
         final UserEntity entity = new UserEntity();
         entity.setEmail(user.getEmail());
         entity.setPassword(user.getPassword());
@@ -22,7 +21,6 @@ public class UserMapper {
     }
 
     public User mapUserEntityToUser(UserEntity entity) {
-
         return User.builder()
                 .id(entity.getId())
                 .email(entity.getEmail())

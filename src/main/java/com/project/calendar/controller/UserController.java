@@ -11,6 +11,7 @@ import com.project.calendar.service.PaymentService;
 import com.project.calendar.service.TicketService;
 import com.project.calendar.service.UserService;
 import com.project.calendar.service.util.PDFCreator;
+import com.project.calendar.service.util.ValidatePagination;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class UserController {
     private final TicketService ticketService;
     private final PaymentService paymentService;
     private final PDFCreator pdfCreator;
+    private final ValidatePagination validatePagination;
 
     @GetMapping("/user")
     public String main() {
@@ -50,29 +52,31 @@ public class UserController {
     }
 
     @GetMapping("user/expositions")
-    public ModelAndView viewExpositions(@RequestParam("page") Integer page,
-                                        @RequestParam("rowCount") Integer rowCount) {
-        final ModelAndView mav = new ModelAndView();
+    public ModelAndView viewExpositions(@RequestParam("page") String stringPage,
+                                        @RequestParam("rowCount") String stringRowCount) {
+        final ModelAndView mav = new ModelAndView("user-view-expositions");
+
+        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
+        final int page = paginationParameters[0];
+        final int rowCount = paginationParameters[1];
+        final int numberOfPages = paginationParameters[2];
 
         final List<Exposition> expositions = expositionService.showAll(page - 1, rowCount);
-        int numberOfPage = (int) Math.ceil(userService.showEntriesAmount() * 1.0 / rowCount);
 
         mav.addObject("expositions", expositions);
-        mav.addObject("command", "view-expositions");
-        mav.addObject("numberOfPages", numberOfPage);
+        mav.addObject("command", "/user/expositions");
+        mav.addObject("numberOfPages", numberOfPages);
         mav.addObject("page", page);
         mav.addObject("rowCount", rowCount);
-        mav.setViewName("user-view-expositions");
 
         return mav;
     }
 
     @PostMapping("user/choose-date")
     public ModelAndView chooseDate(@RequestParam("exposition") Exposition exposition, HttpSession session) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView mav = new ModelAndView("user-choose-date");
 
         session.setAttribute("exposition", exposition);
-        mav.setViewName("user-choose-date");
 
         return mav;
     }
@@ -81,7 +85,7 @@ public class UserController {
     public ModelAndView checkout(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                  @RequestParam("tickets") Integer ticketAmount,
                                  HttpSession session) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView mav = new ModelAndView("user-checkout-page");
 
         final Exposition exposition = (Exposition) session.getAttribute("exposition");
         session.setAttribute("date", date);
@@ -89,14 +93,13 @@ public class UserController {
 
         mav.addObject("ticketAmount", ticketAmount);
         mav.addObject("ticketPrice", exposition.getTicketPrice().doubleValue());
-        mav.setViewName("user-checkout-page");
 
         return mav;
     }
 
     @PostMapping("user/payment-process")
     public ModelAndView processPayment(HttpSession session) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView mav = new ModelAndView("redirect:/user/tickets");
 
         final User user = (User) session.getAttribute("user");
         final Exposition exposition = (Exposition) session.getAttribute("exposition");
@@ -129,14 +132,12 @@ public class UserController {
         session.removeAttribute("date");
         session.removeAttribute("ticketAmount");
 
-        mav.setViewName("redirect:/user/tickets");
-
         return mav;
     }
 
     @GetMapping("user/tickets")
     public ModelAndView showTickets(HttpSession session) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView mav = new ModelAndView("user-show-tickets");
 
         final User user = (User) session.getAttribute("user");
 
@@ -154,7 +155,6 @@ public class UserController {
 
         mav.addObject("tickets", tickets);
         mav.addObject("ticketsAmount", ticketsAmount);
-        mav.setViewName("user-show-tickets");
 
         return mav;
     }

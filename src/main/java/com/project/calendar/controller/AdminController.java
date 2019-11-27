@@ -6,6 +6,7 @@ import com.project.calendar.domain.User;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.UserService;
+import com.project.calendar.service.util.ValidatePagination;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class AdminController {
     private final HallService hallService;
     private final ExpositionService expositionService;
     private final UserService userService;
+    private final ValidatePagination validatePagination;
 
     @GetMapping("/admin")
     public String main() {
@@ -33,11 +35,10 @@ public class AdminController {
 
     @GetMapping("admin/add-exposition")
     public ModelAndView addExpositionPage() {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView mav = new ModelAndView("admin-add-exposition");
 
         mav.addObject("halls", hallService.showAll());
         mav.addObject("exposition", new Exposition());
-        mav.setViewName("admin-add-exposition");
 
         return mav;
     }
@@ -63,10 +64,9 @@ public class AdminController {
 
     @GetMapping("admin/add-hall")
     public ModelAndView addHallPage() {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView mav = new ModelAndView("admin-add-hall");
 
         mav.addObject("hall", new Hall());
-        mav.setViewName("admin-add-hall");
 
         return mav;
     }
@@ -87,25 +87,28 @@ public class AdminController {
     }
 
     @GetMapping("admin/users")
-    public ModelAndView showUsers(@RequestParam("page") Integer page,
-                                  @RequestParam("rowCount") Integer rowCount) {
-        final ModelAndView mav = new ModelAndView();
+    public ModelAndView showUsers(@RequestParam("page") String stringPage,
+                                  @RequestParam("rowCount") String stringRowCount) {
+        final ModelAndView mav = new ModelAndView("admin-users");
 
-        int numberOfPage = (int) Math.ceil(expositionService.showEntriesAmount() * 1.0 / rowCount);
+        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, userService.showEntriesAmount(), ValidatePagination.DEFAULT_USER_ROW_COUNT);
+        final int page = paginationParameters[0];
+        final int rowCount = paginationParameters[1];
+        final int numberOfPages = paginationParameters[2];
+
         final List<User> users = userService.showAll(page - 1, rowCount);
 
         mav.addObject("users", users);
-        mav.addObject("command", "admin/users");
-        mav.addObject("numberOfPages", numberOfPage);
+        mav.addObject("command", "/admin/users");
+        mav.addObject("numberOfPages", numberOfPages);
         mav.addObject("page", page);
         mav.addObject("rowCount", rowCount);
-        mav.setViewName("admin-users");
 
         return mav;
     }
 
     @GetMapping("admin/halls")
-    public ModelAndView showHalls(){
+    public ModelAndView showHalls() {
         final ModelAndView mav = new ModelAndView("admin-halls");
 
         final List<Hall> halls = hallService.showAll();
@@ -115,11 +118,21 @@ public class AdminController {
     }
 
     @GetMapping("admin/expositions")
-    public ModelAndView showExpositions(){
+    public ModelAndView showExpositions(@RequestParam("page") String stringPage,
+                                        @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView mav = new ModelAndView("admin-expositions");
 
-        final List<Exposition> expositions = expositionService.showAll(0, 15);
+        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
+        final int page = paginationParameters[0];
+        final int rowCount = paginationParameters[1];
+        final int numberOfPages = paginationParameters[2];
+
+        final List<Exposition> expositions = expositionService.showAll(page - 1, rowCount);
         mav.addObject("expositions", expositions);
+        mav.addObject("command", "/admin/expositions");
+        mav.addObject("numberOfPages", numberOfPages);
+        mav.addObject("page", page);
+        mav.addObject("rowCount", rowCount);
 
         return mav;
     }

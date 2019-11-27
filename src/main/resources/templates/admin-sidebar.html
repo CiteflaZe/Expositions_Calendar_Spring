@@ -32,7 +32,7 @@
             <a th:href="@{/admin/halls}" th:text="#{admin.sidebar.showHalls}"></a>
         </li>
         <li>
-            <a th:href="@{/admin/expositions}" th:text="#{admin.sidebar.showExpositions}"></a>
+            <a th:href="@{/admin/expositions(page=1, rowCount=5)}" th:text="#{admin.sidebar.showExpositions}"></a>
         </li>
     </ul>
 </nav>
