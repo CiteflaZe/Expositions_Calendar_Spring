@@ -12,12 +12,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.project.calendar.domain.Ticket;
 import com.project.calendar.exception.PDFCreationException;
 import lombok.extern.log4j.Log4j;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +42,25 @@ public class PDFCreator {
 
         Map<String, Font> fontNameToFont = createFonts();
         Map<String, Paragraph> paragraphNameToParagraph = createParagraphs(fontNameToFont.get("titleFont"));
+        final List<String> keys = new ArrayList<>(paragraphNameToParagraph.keySet());
+
+        System.out.println(keys);
 
         Chunk separator = new Chunk(":", fontNameToFont.get("separatorFont"));
 
-        fillParagraphs(tickets, fontNameToFont, paragraphNameToParagraph, separator, document);
+        for (Ticket ticket : tickets) {
+            try {
+                document.add(paragraphNameToParagraph.get("Title"));
+            } catch (DocumentException e) {
+                log.warn("Unable to write into document", e);
+                throw new PDFCreationException("Unable to write into document", e);
+            }
+            fill(fontNameToFont, paragraphNameToParagraph.get(keys.get(2)), keys.get(2), ticket.getId().toString(), separator, document);
+            fill(fontNameToFont, paragraphNameToParagraph.get(keys.get(3)), keys.get(3), ticket.getValidDate().toString(), separator, document);
+            fill(fontNameToFont, paragraphNameToParagraph.get(keys.get(4)), keys.get(4), ticket.getExposition().getTitle(), separator, document);
+            fill(fontNameToFont, paragraphNameToParagraph.get(keys.get(1)), keys.get(1), ticket.getExposition().getHall().getName(), separator, document);
+            document.newPage();
+        }
 
         document.close();
 
@@ -80,11 +95,11 @@ public class PDFCreator {
         Paragraph exposition = new Paragraph();
         Paragraph hall = new Paragraph();
 
-        paragraphs.put("title", title);
-        paragraphs.put("ticketId", ticketId);
-        paragraphs.put("date", date);
-        paragraphs.put("exposition", exposition);
-        paragraphs.put("hall", hall);
+        paragraphs.put("Title", title);
+        paragraphs.put("Ticket Id", ticketId);
+        paragraphs.put("Date", date);
+        paragraphs.put("Exposition", exposition);
+        paragraphs.put("Hall", hall);
 
         final Set<String> keys = paragraphs.keySet();
         for (String key : keys) {
@@ -94,51 +109,21 @@ public class PDFCreator {
         return paragraphs;
     }
 
-    private void fillParagraphs(List<Ticket> tickets, Map<String, Font> fonts, Map<String, Paragraph> paragraphs,
-                                Chunk separator, Document document){
-        for (Ticket ticket : tickets) {
-            Chunk chunk = new Chunk("Ticket ID", fonts.get("paragraphFont")).setUnderline(1f, -2f);
-            Chunk text = new Chunk(" " + ticket.getId(), fonts.get("chunkFont"));
-            paragraphs.get("ticketId").add(chunk);
-            paragraphs.get("ticketId").add(separator);
-            paragraphs.get("ticketId").add(text);
+    private void fill(Map<String, Font> fonts, Paragraph paragraph, String content, String stringText, Chunk separator, Document document){
+        Chunk chunk = new Chunk(content, fonts.get("paragraphFont")).setUnderline(1f, -2f);
+        Chunk text = new Chunk(" " + stringText, fonts.get("chunkFont"));
+        paragraph.add(chunk);
+        paragraph.add(separator);
+        paragraph.add(text);
 
-            chunk = new Chunk("Date", fonts.get("paragraphFont")).setUnderline(1f, -2f);
-            text = new Chunk(" " + ticket.getValidDate(), fonts.get("chunkFont"));
-            paragraphs.get("date").add(chunk);
-            paragraphs.get("date").add(separator);
-            paragraphs.get("date").add(text);
-
-            chunk = new Chunk("Expositions", fonts.get("paragraphFont")).setUnderline(1f, -2f);
-            text = new Chunk(" " + ticket.getExposition().getTitle(), fonts.get("chunkFont"));
-            paragraphs.get("exposition").add(chunk);
-            paragraphs.get("exposition").add(separator);
-            paragraphs.get("exposition").add(text);
-
-            chunk = new Chunk("Hall", fonts.get("paragraphFont")).setUnderline(1f, -2f);
-            text = new Chunk(" " + ticket.getExposition().getHall().getName(), fonts.get("chunkFont"));
-            paragraphs.get("hall").add(chunk);
-            paragraphs.get("hall").add(separator);
-            paragraphs.get("hall").add(text);
-
-            try {
-                document.add(paragraphs.get("title"));
-                document.add(paragraphs.get("ticketId"));
-                document.add(paragraphs.get("date"));
-                document.add(paragraphs.get("exposition"));
-                document.add(paragraphs.get("hall"));
-            } catch (DocumentException e) {
-                log.warn("Unable to write into document", e);
-                throw new PDFCreationException(e);
-            }
-            document.newPage();
-
-            paragraphs.get("ticketId").clear();
-            paragraphs.get("date").clear();
-            paragraphs.get("exposition").clear();
-            paragraphs.get("hall").clear();
+        try {
+            document.add(paragraph);
+        } catch (DocumentException e) {
+            log.warn("Unable to write into document", e);
+            throw new PDFCreationException("Unable to write into document", e);
         }
-    }
 
+        paragraph.clear();
+    }
 
 }

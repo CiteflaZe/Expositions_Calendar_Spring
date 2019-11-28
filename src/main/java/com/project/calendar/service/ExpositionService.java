@@ -11,5 +11,9 @@ public interface ExpositionService {
 
     List<Exposition> showAll(Integer page, Integer rowCount);
 
+    List<Exposition> showAllNotFinished(Integer page, Integer rowCount);
+
     Long showEntriesAmount();
+
+    Long showNotFinishedEntriesAmount();
 }

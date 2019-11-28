@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository("paymentRepository")
 public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
+
     Optional<PaymentEntity> findFirstByUserIdOrderByIdDesc(Long id);
 
     List<PaymentEntity> findAllByUserId(Long id);

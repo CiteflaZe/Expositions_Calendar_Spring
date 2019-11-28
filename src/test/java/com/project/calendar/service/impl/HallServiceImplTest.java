@@ -10,13 +10,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.project.calendar.MockData.MOCK_HALL;
+import static com.project.calendar.MockData.MOCK_HALL_ENTITY;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -24,26 +27,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = HallServiceImpl.class)
 public class HallServiceImplTest {
-    private static final Long ID = 4L;
-    private static final String NAME = "Great Hall";
-    private static final String CITY = "Kiev";
-    private static final String STREET = "Some Street";
-    private static final Integer HOUSE_NUMBER = 15;
 
-    private static final Hall HALL = initHall();
-    private static final HallEntity HALL_ENTITY = initEntity();
+    private static final Hall HALL = MOCK_HALL;
+    private static final HallEntity HALL_ENTITY = MOCK_HALL_ENTITY;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Mock
+    @MockBean
     private HallRepository hallRepository;
-    @Mock
+
+    @MockBean
     private HallMapper mapper;
 
-    @InjectMocks
+    @Autowired
     private HallServiceImpl hallService;
 
     @Test
@@ -113,26 +113,6 @@ public class HallServiceImplTest {
 
         assertThat(halls.size(), is(1));
         assertThat(halls.get(0), is(HALL));
-    }
-
-    private static Hall initHall() {
-        return Hall.builder()
-                .name(NAME)
-                .city(CITY)
-                .street(STREET)
-                .houseNumber(HOUSE_NUMBER)
-                .build();
-    }
-
-    private static HallEntity initEntity() {
-        final HallEntity hallEntity = new HallEntity();
-        hallEntity.setId(ID);
-        hallEntity.setName(NAME);
-        hallEntity.setCity(CITY);
-        hallEntity.setStreet(STREET);
-        hallEntity.setHouseNumber(HOUSE_NUMBER);
-
-        return hallEntity;
     }
 
 }

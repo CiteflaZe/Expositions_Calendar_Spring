@@ -54,12 +54,12 @@ public class UserController {
                                         @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView modelAndView = new ModelAndView("user-view-expositions");
 
-        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
+        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showNotFinishedEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
         final int page = paginationParameters[0];
         final int rowCount = paginationParameters[1];
         final int numberOfPages = paginationParameters[2];
 
-        final List<Exposition> expositions = expositionService.showAll(page - 1, rowCount);
+        final List<Exposition> expositions = expositionService.showAllNotFinished(page - 1, rowCount);
 
         modelAndView.addObject("expositions", expositions);
         modelAndView.addObject("command", "/user/expositions");

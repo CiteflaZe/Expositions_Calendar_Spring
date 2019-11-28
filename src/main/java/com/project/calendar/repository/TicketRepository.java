@@ -9,9 +9,11 @@ import java.util.Optional;
 
 @Repository("ticketRepository")
 public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
+
     List<TicketEntity> findAllByPaymentIdAndUserId(Long paymentId, Long userId);
 
     Optional<TicketEntity> findFirstByPaymentId(Long id);
 
     List<TicketEntity> findAllByUserId(Long id);
+
 }

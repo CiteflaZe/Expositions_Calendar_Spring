@@ -9,7 +9,9 @@ import java.util.Optional;
 
 @Repository("hallRepository")
 public interface HallRepository extends JpaRepository<HallEntity, Long> {
+
     List<HallEntity> findByCity(String city);
 
     Optional<HallEntity> findByName(String name);
+
 }
