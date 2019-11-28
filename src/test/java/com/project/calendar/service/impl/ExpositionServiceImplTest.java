@@ -130,8 +130,8 @@ public class ExpositionServiceImplTest {
         expositionEntity.setId(ID);
         expositionEntity.setTitle(TITLE);
         expositionEntity.setTheme(THEME);
-        expositionEntity.setStartTime(START_DATE);
-        expositionEntity.setFinishTime(END_DATE);
+        expositionEntity.setStartDate(START_DATE);
+        expositionEntity.setEndDate(END_DATE);
         expositionEntity.setTicketPrice(TICKET_PRICE);
         expositionEntity.setDescription(DESCRIPTION);
         expositionEntity.setHall(hallEntity);

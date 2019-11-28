@@ -22,8 +22,8 @@ public class ExpositionMapperTest {
 
         assertThat(actual.getTheme(), is(MOCK_EXPOSITION.getTheme()));
         assertThat(actual.getTitle(), is(MOCK_EXPOSITION.getTitle()));
-        assertThat(actual.getStartTime(), is(MOCK_EXPOSITION.getStartDate()));
-        assertThat(actual.getFinishTime(), is(MOCK_EXPOSITION.getEndDate()));
+        assertThat(actual.getStartDate(), is(MOCK_EXPOSITION.getStartDate()));
+        assertThat(actual.getEndDate(), is(MOCK_EXPOSITION.getEndDate()));
         assertThat(actual.getTicketPrice(), is(MOCK_EXPOSITION.getTicketPrice()));
         assertThat(actual.getDescription(), is(MOCK_EXPOSITION.getDescription()));
         assertThat(actual.getHall().getId(), is(MOCK_EXPOSITION.getHall().getId()));
@@ -37,8 +37,8 @@ public class ExpositionMapperTest {
         assertThat(actual.getId(), is(MOCK_EXPOSITION_ENTITY.getId()));
         assertThat(actual.getTitle(), is(MOCK_EXPOSITION_ENTITY.getTitle()));
         assertThat(actual.getTheme(), is(MOCK_EXPOSITION_ENTITY.getTheme()));
-        assertThat(actual.getStartDate(), is(MOCK_EXPOSITION_ENTITY.getStartTime()));
-        assertThat(actual.getEndDate(), is(MOCK_EXPOSITION_ENTITY.getFinishTime()));
+        assertThat(actual.getStartDate(), is(MOCK_EXPOSITION_ENTITY.getStartDate()));
+        assertThat(actual.getEndDate(), is(MOCK_EXPOSITION_ENTITY.getEndDate()));
         assertThat(actual.getTicketPrice(), is(MOCK_EXPOSITION_ENTITY.getTicketPrice()));
         assertThat(actual.getDescription(), is(MOCK_EXPOSITION_ENTITY.getDescription()));
         assertThat(actual.getHall().getId(), is(MOCK_EXPOSITION_ENTITY.getHall().getId()));

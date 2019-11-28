@@ -14,8 +14,8 @@ public class ExpositionMapper {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .theme(entity.getTheme())
-                .startDate(entity.getStartTime())
-                .endDate(entity.getFinishTime())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
                 .ticketPrice(entity.getTicketPrice())
                 .description(entity.getDescription())
                 .hall(createHall(entity))
@@ -27,8 +27,8 @@ public class ExpositionMapper {
 
         entity.setTitle(exposition.getTitle());
         entity.setTheme(exposition.getTheme());
-        entity.setStartTime(exposition.getStartDate());
-        entity.setFinishTime(exposition.getEndDate());
+        entity.setStartDate(exposition.getStartDate());
+        entity.setEndDate(exposition.getEndDate());
         entity.setTicketPrice(exposition.getTicketPrice());
         entity.setDescription(exposition.getDescription());
         entity.setHall(createHallEntity(exposition));

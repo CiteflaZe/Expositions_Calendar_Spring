@@ -34,11 +34,11 @@ public class ExpositionEntity {
     @Column(name = "theme", nullable = false, length = 100)
     private String theme;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalDate startTime;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
 
-    @Column(name = "finish_time", nullable = false)
-    private LocalDate finishTime;
+    @Column(name = "end_date", nullable = false)
+    private LocalDate endDate;
 
     @Column(name = "ticket_price", nullable = false, scale = 2, precision = 6)
     private BigDecimal ticketPrice;

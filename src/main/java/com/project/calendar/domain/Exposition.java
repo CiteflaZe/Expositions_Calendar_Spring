@@ -29,6 +29,7 @@ public class Exposition {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @NotNull(message = "Provide valid ending date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

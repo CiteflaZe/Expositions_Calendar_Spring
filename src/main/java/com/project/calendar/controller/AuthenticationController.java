@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,46 +36,45 @@ public class AuthenticationController {
     public ModelAndView signIn(HttpSession session,
                                @RequestParam(name = "email") String email,
                                @RequestParam(name = "password") String password) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView modelAndView = new ModelAndView();
 
         final User user = userService.login(email, password);
 
         session.setAttribute("user", user);
 
         if (user.getRole() == Role.ADMIN) {
-            mav.setViewName("redirect:/admin");
+            modelAndView.setViewName("redirect:/admin");
         } else if (user.getRole() == Role.USER) {
-            mav.setViewName("redirect:/user");
+            modelAndView.setViewName("redirect:/user");
         } else {
-            mav.setViewName("redirect:/");
+            modelAndView.setViewName("redirect:/");
         }
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("/register")
     public ModelAndView register() {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("user", new User());
-        mav.setViewName("register");
-        return mav;
+        ModelAndView modelAndView = new ModelAndView("register");
+        modelAndView.addObject("user", new User());
+        return modelAndView;
     }
 
     @PostMapping("/register")
     public ModelAndView registerUser(@Valid User user, BindingResult bindingResult,
                                      @RequestParam(name = "passwordConfirmation") String confirmPass) {
-        ModelAndView mav = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            mav.setViewName("register");
+            modelAndView.setViewName("register");
         } else if (!Objects.equals(user.getPassword(), confirmPass)) {
-            mav.addObject("confirmationError", true);
-            mav.setViewName("register");
+            modelAndView.addObject("confirmationError", true);
+            modelAndView.setViewName("register");
         } else {
             userService.register(user);
-            mav.setViewName("redirect:/");
+            modelAndView.setViewName("redirect:/");
         }
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("/logout")

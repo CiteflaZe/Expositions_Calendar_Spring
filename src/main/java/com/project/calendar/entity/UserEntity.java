@@ -9,12 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -30,10 +27,10 @@ public class UserEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email", nullable = false, unique = true, length = 55)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 80)
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @Column(name = "name", nullable = false, length = 55)

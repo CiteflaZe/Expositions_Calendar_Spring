@@ -9,7 +9,6 @@ import com.project.calendar.exception.DownloadTicketsException;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.PaymentService;
 import com.project.calendar.service.TicketService;
-import com.project.calendar.service.UserService;
 import com.project.calendar.service.util.PDFCreator;
 import com.project.calendar.service.util.ValidatePagination;
 import lombok.AllArgsConstructor;
@@ -39,7 +38,6 @@ import java.util.List;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private final UserService userService;
     private final ExpositionService expositionService;
     private final TicketService ticketService;
     private final PaymentService paymentService;
@@ -54,7 +52,7 @@ public class UserController {
     @GetMapping("user/expositions")
     public ModelAndView viewExpositions(@RequestParam("page") String stringPage,
                                         @RequestParam("rowCount") String stringRowCount) {
-        final ModelAndView mav = new ModelAndView("user-view-expositions");
+        final ModelAndView modelAndView = new ModelAndView("user-view-expositions");
 
         final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
         final int page = paginationParameters[0];
@@ -63,43 +61,43 @@ public class UserController {
 
         final List<Exposition> expositions = expositionService.showAll(page - 1, rowCount);
 
-        mav.addObject("expositions", expositions);
-        mav.addObject("command", "/user/expositions");
-        mav.addObject("numberOfPages", numberOfPages);
-        mav.addObject("page", page);
-        mav.addObject("rowCount", rowCount);
+        modelAndView.addObject("expositions", expositions);
+        modelAndView.addObject("command", "/user/expositions");
+        modelAndView.addObject("numberOfPages", numberOfPages);
+        modelAndView.addObject("page", page);
+        modelAndView.addObject("rowCount", rowCount);
 
-        return mav;
+        return modelAndView;
     }
 
     @PostMapping("user/choose-date")
     public ModelAndView chooseDate(@RequestParam("exposition") Exposition exposition, HttpSession session) {
-        final ModelAndView mav = new ModelAndView("user-choose-date");
+        final ModelAndView modelAndView = new ModelAndView("user-choose-date");
 
         session.setAttribute("exposition", exposition);
 
-        return mav;
+        return modelAndView;
     }
 
     @PostMapping("user/checkout")
     public ModelAndView checkout(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                  @RequestParam("tickets") Integer ticketAmount,
                                  HttpSession session) {
-        final ModelAndView mav = new ModelAndView("user-checkout-page");
+        final ModelAndView modelAndView = new ModelAndView("user-checkout-page");
 
         final Exposition exposition = (Exposition) session.getAttribute("exposition");
         session.setAttribute("date", date);
         session.setAttribute("ticketAmount", ticketAmount);
 
-        mav.addObject("ticketAmount", ticketAmount);
-        mav.addObject("ticketPrice", exposition.getTicketPrice().doubleValue());
+        modelAndView.addObject("ticketAmount", ticketAmount);
+        modelAndView.addObject("ticketPrice", exposition.getTicketPrice().doubleValue());
 
-        return mav;
+        return modelAndView;
     }
 
     @PostMapping("user/payment-process")
     public ModelAndView processPayment(HttpSession session) {
-        final ModelAndView mav = new ModelAndView("redirect:/user/tickets");
+        final ModelAndView modelAndView = new ModelAndView("redirect:/user/tickets");
 
         final User user = (User) session.getAttribute("user");
         final Exposition exposition = (Exposition) session.getAttribute("exposition");
@@ -132,12 +130,12 @@ public class UserController {
         session.removeAttribute("date");
         session.removeAttribute("ticketAmount");
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("user/tickets")
     public ModelAndView showTickets(HttpSession session) {
-        final ModelAndView mav = new ModelAndView("user-show-tickets");
+        final ModelAndView modelAndView = new ModelAndView("user-show-tickets");
 
         final User user = (User) session.getAttribute("user");
 
@@ -153,10 +151,10 @@ public class UserController {
             }
         }
 
-        mav.addObject("tickets", tickets);
-        mav.addObject("ticketsAmount", ticketsAmount);
+        modelAndView.addObject("tickets", tickets);
+        modelAndView.addObject("ticketsAmount", ticketsAmount);
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("user/download")

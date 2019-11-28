@@ -20,61 +20,45 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidLoginException.class)
     public ModelAndView handleInvalidLoginException() {
-        final ModelAndView mav = new ModelAndView("login");
-        mav.addObject("loginError", true);
+        final ModelAndView modelAndView = new ModelAndView("login");
+        modelAndView.addObject("loginError", true);
 
-        return mav;
+        return modelAndView;
     }
 
     @ExceptionHandler(EmailAlreadyExistException.class)
     public ModelAndView handleEmailAlreadyExistException() {
-        final ModelAndView mav = new ModelAndView("register");
-        mav.addObject("registerError", true);
-        mav.addObject("user", new User());
+        final ModelAndView modelAndView = new ModelAndView("register");
+        modelAndView.addObject("registerError", true);
+        modelAndView.addObject("user", new User());
 
-        return mav;
+        return modelAndView;
     }
 
     @ExceptionHandler(ExpositionAlreadyExistException.class)
-    public ModelAndView handleExpositionAlreadyExistException(){
-        final ModelAndView mav = new ModelAndView("admin-add-exposition");
-        mav.addObject("expositionError", true);
-        mav.addObject("exposition", new Exposition());
+    public ModelAndView handleExpositionAlreadyExistException() {
+        final ModelAndView modelAndView = new ModelAndView("admin-add-exposition");
+        modelAndView.addObject("expositionError", true);
+        modelAndView.addObject("exposition", new Exposition());
 
-        return mav;
+        return modelAndView;
     }
 
     @ExceptionHandler(HallAlreadyExistException.class)
-    public ModelAndView handleHallAlreadyExistException(){
-        final ModelAndView mav = new ModelAndView("admin-add-hall");
-        mav.addObject("hallError", true);
-        mav.addObject("hall", new Hall());
+    public ModelAndView handleHallAlreadyExistException() {
+        final ModelAndView modelAndView = new ModelAndView("admin-add-hall");
+        modelAndView.addObject("hallError", true);
+        modelAndView.addObject("hall", new Hall());
 
-        return mav;
+        return modelAndView;
     }
 
-    @ExceptionHandler(IllegalPaginationValuesException.class)
+    @ExceptionHandler(value = {IllegalPaginationValuesException.class,
+            InvalidEntityException.class,
+            PDFCreationException.class,
+            DownloadTicketsException.class,
+            IllegalArgumentException.class})
     public String handleIllegalPaginationValuesException() {
-        return "error";
-    }
-
-    @ExceptionHandler(InvalidEntityException.class)
-    public String handleInvalidEntityException() {
-        return "error";
-    }
-
-    @ExceptionHandler(PDFCreationException.class)
-    public String handlePDFCreationException() {
-        return "error";
-    }
-
-    @ExceptionHandler(DownloadTicketsException.class)
-    public String handleDownloadTicketsException() {
-        return "error";
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleIllegalArgumentException(){
         return "error";
     }
 

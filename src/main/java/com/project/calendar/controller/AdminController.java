@@ -35,59 +35,59 @@ public class AdminController {
 
     @GetMapping("admin/add-exposition")
     public ModelAndView addExpositionPage() {
-        final ModelAndView mav = new ModelAndView("admin-add-exposition");
+        final ModelAndView modelAndView = new ModelAndView("admin-add-exposition");
 
-        mav.addObject("halls", hallService.showAll());
-        mav.addObject("exposition", new Exposition());
+        modelAndView.addObject("halls", hallService.showAll());
+        modelAndView.addObject("exposition", new Exposition());
 
-        return mav;
+        return modelAndView;
     }
 
     @PostMapping("admin/add-exposition")
     public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            mav.setViewName("admin-add-exposition");
+            modelAndView.setViewName("admin-add-exposition");
         } else if (exposition.getStartDate().compareTo(exposition.getEndDate()) >= 0) {
-            mav.addObject("dateError", true);
-            mav.setViewName("admin-add-exposition");
+            modelAndView.addObject("dateError", true);
+            modelAndView.setViewName("admin-add-exposition");
         } else {
             expositionService.add(exposition);
-            mav.setViewName("redirect:/admin");
+            modelAndView.setViewName("redirect:/admin");
         }
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("admin/add-hall")
     public ModelAndView addHallPage() {
-        final ModelAndView mav = new ModelAndView("admin-add-hall");
+        final ModelAndView modelAndView = new ModelAndView("admin-add-hall");
 
-        mav.addObject("hall", new Hall());
+        modelAndView.addObject("hall", new Hall());
 
-        return mav;
+        return modelAndView;
     }
 
 
     @PostMapping("admin/add-hall")
     public ModelAndView addHall(@Valid Hall hall, BindingResult bindingResult) {
-        final ModelAndView mav = new ModelAndView();
+        final ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            mav.setViewName("admin-add-hall");
+            modelAndView.setViewName("admin-add-hall");
         } else {
             hallService.add(hall);
-            mav.setViewName("redirect:/admin");
+            modelAndView.setViewName("redirect:/admin");
         }
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("admin/users")
     public ModelAndView showUsers(@RequestParam("page") String stringPage,
                                   @RequestParam("rowCount") String stringRowCount) {
-        final ModelAndView mav = new ModelAndView("admin-users");
+        final ModelAndView modelAndView = new ModelAndView("admin-users");
 
         final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, userService.showEntriesAmount(), ValidatePagination.DEFAULT_USER_ROW_COUNT);
         final int page = paginationParameters[0];
@@ -96,29 +96,29 @@ public class AdminController {
 
         final List<User> users = userService.showAll(page - 1, rowCount);
 
-        mav.addObject("users", users);
-        mav.addObject("command", "/admin/users");
-        mav.addObject("numberOfPages", numberOfPages);
-        mav.addObject("page", page);
-        mav.addObject("rowCount", rowCount);
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("command", "/admin/users");
+        modelAndView.addObject("numberOfPages", numberOfPages);
+        modelAndView.addObject("page", page);
+        modelAndView.addObject("rowCount", rowCount);
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("admin/halls")
     public ModelAndView showHalls() {
-        final ModelAndView mav = new ModelAndView("admin-halls");
+        final ModelAndView modelAndView = new ModelAndView("admin-halls");
 
         final List<Hall> halls = hallService.showAll();
-        mav.addObject("halls", halls);
+        modelAndView.addObject("halls", halls);
 
-        return mav;
+        return modelAndView;
     }
 
     @GetMapping("admin/expositions")
     public ModelAndView showExpositions(@RequestParam("page") String stringPage,
                                         @RequestParam("rowCount") String stringRowCount) {
-        final ModelAndView mav = new ModelAndView("admin-expositions");
+        final ModelAndView modelAndView = new ModelAndView("admin-expositions");
 
         final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
         final int page = paginationParameters[0];
@@ -126,12 +126,12 @@ public class AdminController {
         final int numberOfPages = paginationParameters[2];
 
         final List<Exposition> expositions = expositionService.showAll(page - 1, rowCount);
-        mav.addObject("expositions", expositions);
-        mav.addObject("command", "/admin/expositions");
-        mav.addObject("numberOfPages", numberOfPages);
-        mav.addObject("page", page);
-        mav.addObject("rowCount", rowCount);
+        modelAndView.addObject("expositions", expositions);
+        modelAndView.addObject("command", "/admin/expositions");
+        modelAndView.addObject("numberOfPages", numberOfPages);
+        modelAndView.addObject("page", page);
+        modelAndView.addObject("rowCount", rowCount);
 
-        return mav;
+        return modelAndView;
     }
 }

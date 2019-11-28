@@ -118,8 +118,8 @@ public class MockData {
         expositionEntity.setId(EXPOSITION_ID);
         expositionEntity.setTitle(EXPOSITION_TITLE);
         expositionEntity.setTheme(EXPOSITION_THEME);
-        expositionEntity.setStartTime(EXPOSITION_START_DATE);
-        expositionEntity.setFinishTime(EXPOSITION_END_DATE);
+        expositionEntity.setStartDate(EXPOSITION_START_DATE);
+        expositionEntity.setEndDate(EXPOSITION_END_DATE);
         expositionEntity.setTicketPrice(EXPOSITION_TICKET_PRICE);
         expositionEntity.setDescription(EXPOSITION_DESCRIPTION);
         expositionEntity.setHall(MOCK_HALL_ENTITY);
