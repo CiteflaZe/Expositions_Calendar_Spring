@@ -17,10 +17,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @Service("expositionService")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -28,7 +27,7 @@ import static java.util.stream.Collectors.*;
 public class ExpositionServiceImpl implements ExpositionService {
 
     private ExpositionRepository expositionRepository;
-    private ExpositionMapper mapper;
+    private ExpositionMapper expositionMapper;
 
     @Override
     public void add(Exposition exposition) {
@@ -42,7 +41,7 @@ public class ExpositionServiceImpl implements ExpositionService {
             throw new ExpositionAlreadyExistException("Exposition with this title already exists");
         }
 
-        final ExpositionEntity expositionEntity = mapper.mapExpositionToExpositionEntity(exposition);
+        final ExpositionEntity expositionEntity = expositionMapper.mapExpositionToExpositionEntity(exposition);
 
         expositionRepository.save(expositionEntity);
 
@@ -57,7 +56,7 @@ public class ExpositionServiceImpl implements ExpositionService {
             throw new InvalidEntityException("There is no exposition with this id");
         }
 
-        return mapper.mapExpositionEntityToExposition(entity.get());
+        return expositionMapper.mapExpositionEntityToExposition(entity.get());
     }
 
     @Override
@@ -88,11 +87,11 @@ public class ExpositionServiceImpl implements ExpositionService {
         return expositionRepository.countByEndDateGreaterThan(LocalDate.now());
     }
 
-    private List<Exposition> mapPage(Page<ExpositionEntity> page){
+    private List<Exposition> mapPage(Page<ExpositionEntity> page) {
         return page.isEmpty() ?
                 emptyList() :
                 page.stream()
-                        .map(mapper::mapExpositionEntityToExposition)
+                        .map(expositionMapper::mapExpositionEntityToExposition)
                         .collect(toList());
     }
 }

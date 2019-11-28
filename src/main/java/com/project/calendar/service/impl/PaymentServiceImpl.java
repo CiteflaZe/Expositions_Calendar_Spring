@@ -2,6 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Payment;
 import com.project.calendar.entity.PaymentEntity;
+import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.PaymentRepository;
 import com.project.calendar.service.PaymentService;
 import com.project.calendar.service.mapper.PaymentMapper;
@@ -10,10 +11,8 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.*;
 import static java.util.stream.Collectors.*;
@@ -24,7 +23,7 @@ import static java.util.stream.Collectors.*;
 public class PaymentServiceImpl implements PaymentService {
 
     private PaymentRepository paymentRepository;
-    private PaymentMapper mapper;
+    private PaymentMapper paymentMapper;
 
     @Override
     public void add(Payment payment) {
@@ -33,7 +32,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalArgumentException("Payment is null");
         }
 
-        final PaymentEntity paymentEntity = mapper.mapPaymentToPaymentEntity(payment);
+        final PaymentEntity paymentEntity = paymentMapper.mapPaymentToPaymentEntity(payment);
 
         paymentRepository.save(paymentEntity);
     }
@@ -43,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
         final List<PaymentEntity> payments = paymentRepository.findAllByUserId(id);
         return payments.isEmpty() ? emptyList() :
                 payments.stream()
-                        .map(mapper::mapPaymentEntityToPayment)
+                        .map(paymentMapper::mapPaymentEntityToPayment)
                         .collect(toList());
     }
 
@@ -52,8 +51,8 @@ public class PaymentServiceImpl implements PaymentService {
         final Optional<PaymentEntity> paymentEntity = paymentRepository.findFirstByUserIdOrderByIdDesc(id);
 
         return paymentEntity
-                .map(mapper::mapPaymentEntityToPayment)
-                .orElse(null);
+                .map(paymentMapper::mapPaymentEntityToPayment)
+                .orElseThrow(() -> new InvalidEntityException("No payments found"));
 
     }
 }

@@ -14,7 +14,7 @@ public class ExpositionMapperTest {
     private static final Exposition EXPOSITION = MOCK_EXPOSITION;
     private static final ExpositionEntity EXPOSITION_ENTITY = MOCK_EXPOSITION_ENTITY;
 
-    private ExpositionMapper expositionMapper = new ExpositionMapper();
+    private final ExpositionMapper expositionMapper = new ExpositionMapper();
 
     @Test
     public void mapExpositionToExpositionEntityShouldReturnExpositionEntity() {

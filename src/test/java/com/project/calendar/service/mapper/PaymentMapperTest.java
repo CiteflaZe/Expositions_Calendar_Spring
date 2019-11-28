@@ -14,8 +14,7 @@ public class PaymentMapperTest {
     private static final Payment PAYMENT = MOCK_PAYMENT;
     private static final PaymentEntity PAYMENT_ENTITY = MOCK_PAYMENT_ENTITY;
 
-
-    private PaymentMapper paymentMapper = new PaymentMapper();
+    private final PaymentMapper paymentMapper = new PaymentMapper();
 
     @Test
     public void mapPaymentToPaymentEntityShouldReturnPaymentEntity() {

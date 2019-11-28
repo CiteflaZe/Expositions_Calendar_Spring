@@ -10,13 +10,12 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-
 public class UserMapperTest {
 
     private static final User USER = MOCK_USER;
     private static final UserEntity USER_ENTITY = MOCK_USER_ENTITY;
 
-    private UserMapper userMapper = new UserMapper();
+    private final UserMapper userMapper = new UserMapper();
 
     @Test
     public void mapUserToUserEntityShouldReturnUserEntity() {

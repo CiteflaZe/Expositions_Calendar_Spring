@@ -6,6 +6,7 @@ import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.mapper.HallMapper;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,10 +42,15 @@ public class HallServiceImplTest {
     private HallRepository hallRepository;
 
     @MockBean
-    private HallMapper mapper;
+    private HallMapper hallMapper;
 
     @Autowired
     private HallServiceImpl hallService;
+
+    @After
+    public void resetMocks(){
+        reset(hallRepository, hallMapper);
+    }
 
     @Test
     public void addShouldThrowIllegalArgumentException() {
@@ -67,7 +73,7 @@ public class HallServiceImplTest {
     @Test
     public void addShouldAddHall() {
         when(hallRepository.findByName(anyString())).thenReturn(Optional.empty());
-        when(mapper.mapHallToHallEntity(HALL)).thenReturn(HALL_ENTITY);
+        when(hallMapper.mapHallToHallEntity(HALL)).thenReturn(HALL_ENTITY);
 
         hallService.add(HALL);
 
@@ -87,11 +93,11 @@ public class HallServiceImplTest {
     @Test
     public void showByIdShouldReturnHall() {
         when(hallRepository.findById(anyLong())).thenReturn(Optional.of(HALL_ENTITY));
-        when(mapper.mapHallEntityToHall(HALL_ENTITY)).thenReturn(HALL);
+        when(hallMapper.mapHallEntityToHall(HALL_ENTITY)).thenReturn(HALL);
 
         final Hall actual = hallService.showById(4L);
 
-        verify(mapper).mapHallEntityToHall(HALL_ENTITY);
+        verify(hallMapper).mapHallEntityToHall(HALL_ENTITY);
         assertThat(actual, is(notNullValue()));
     }
 
@@ -107,7 +113,7 @@ public class HallServiceImplTest {
     @Test
     public void showAllShouldReturnHallList() {
         when(hallRepository.findAll()).thenReturn(singletonList(HALL_ENTITY));
-        when(mapper.mapHallEntityToHall(HALL_ENTITY)).thenReturn(HALL);
+        when(hallMapper.mapHallEntityToHall(HALL_ENTITY)).thenReturn(HALL);
 
         final List<Hall> halls = hallService.showAll();
 

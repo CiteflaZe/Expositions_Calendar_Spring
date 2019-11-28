@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class HallServiceImpl implements HallService {
 
     private final HallRepository hallRepository;
-    private final HallMapper mapper;
+    private final HallMapper hallMapper;
 
     @Override
     public void add(Hall hall) {
@@ -36,7 +36,7 @@ public class HallServiceImpl implements HallService {
             throw new HallAlreadyExistException("Hall with this name already exists");
         }
 
-        final HallEntity hallEntity = mapper.mapHallToHallEntity(hall);
+        final HallEntity hallEntity = hallMapper.mapHallToHallEntity(hall);
 
         hallRepository.save(hallEntity);
     }
@@ -50,14 +50,14 @@ public class HallServiceImpl implements HallService {
             throw new InvalidEntityException("There is no hall with this id");
         }
 
-        return mapper.mapHallEntityToHall(entity.get());
+        return hallMapper.mapHallEntityToHall(entity.get());
     }
 
     @Override
     public List<Hall> showAll() {
         final List<HallEntity> allHalls = hallRepository.findAll();
         return allHalls.stream()
-                .map(mapper::mapHallEntityToHall)
+                .map(hallMapper::mapHallEntityToHall)
                 .collect(Collectors.toList());
     }
 }

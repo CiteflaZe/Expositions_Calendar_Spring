@@ -2,6 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Ticket;
 import com.project.calendar.entity.TicketEntity;
+import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.TicketRepository;
 import com.project.calendar.service.TicketService;
 import com.project.calendar.service.mapper.TicketMapper;
@@ -22,7 +23,7 @@ import static java.util.Collections.emptyList;
 public class TicketServiceImpl implements TicketService {
 
     private TicketRepository ticketRepository;
-    private TicketMapper mapper;
+    private TicketMapper ticketMapper;
 
     @Override
     public void add(Ticket ticket) {
@@ -31,17 +32,16 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalArgumentException("Ticket is null");
         }
 
-        final TicketEntity ticketEntity = mapper.mapTicketToTicketEntity(ticket);
+        final TicketEntity ticketEntity = ticketMapper.mapTicketToTicketEntity(ticket);
 
         ticketRepository.save(ticketEntity);
-
     }
 
     @Override
     public Ticket showOneByPaymentId(Long id) {
         final Optional<TicketEntity> ticketEntity = ticketRepository.findFirstByPaymentId(id);
 
-        return ticketEntity.map(mapper::mapTicketEntityToTicket).orElse(null);
+        return ticketEntity.map(ticketMapper::mapTicketEntityToTicket).orElseThrow(() -> new InvalidEntityException("No tickets found"));
     }
 
     public List<Ticket> showAllByPaymentIdAndUserId(Long paymentId, Long userId) {
@@ -50,9 +50,10 @@ public class TicketServiceImpl implements TicketService {
     }
 
     private List<Ticket> mapTicketEntityListToTicketList(List<TicketEntity> tickets) {
-        return tickets.isEmpty() ? emptyList() :
+        return tickets.isEmpty() ?
+                emptyList() :
                 tickets.stream()
-                        .map(mapper::mapTicketEntityToTicket)
+                        .map(ticketMapper::mapTicketEntityToTicket)
                         .collect(Collectors.toList());
     }
 }

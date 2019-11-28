@@ -14,7 +14,7 @@ public class TicketMapperTest {
     private static final Ticket TICKET = MOCK_TICKET;
     private static final TicketEntity TICKET_ENTITY = MOCK_TICKET_ENTITY;
 
-    private TicketMapper mapper = new TicketMapper();
+    private final TicketMapper mapper = new TicketMapper();
 
     @Test
     public void mapTicketToTicketEntityShouldReturnTicketEntity() {

@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
-    private final UserMapper mapper;
+    private final UserMapper userMapper;
 
     @Override
     public User login(String email, String password) {
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (encoder.matches(password, entity.get().getPassword())) {
-            return mapper.mapUserEntityToUser(entity.get());
+            return userMapper.mapUserEntityToUser(entity.get());
         }
 
         log.warn("Incorrect password");
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(encoder.encode(user.getPassword()));
-        final UserEntity entity = mapper.mapUserToUserEntity(user);
+        final UserEntity entity = userMapper.mapUserToUserEntity(user);
 
         userRepository.save(entity);
     }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
         return entities.isEmpty() ? emptyList() :
                 entities.stream()
-                        .map(mapper::mapUserEntityToUser)
+                        .map(userMapper::mapUserEntityToUser)
                         .collect(Collectors.toList());
     }
 
