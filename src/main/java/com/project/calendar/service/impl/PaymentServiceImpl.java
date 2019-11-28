@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.*;
-import static java.util.stream.Collectors.*;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 @Service("paymentService")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void add(Payment payment) {
-        if(payment == null){
+        if (payment == null) {
             log.warn("Payment is null");
             throw new IllegalArgumentException("Payment is null");
         }

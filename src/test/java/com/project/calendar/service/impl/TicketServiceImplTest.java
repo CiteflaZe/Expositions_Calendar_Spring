@@ -5,8 +5,6 @@ import com.project.calendar.entity.TicketEntity;
 import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.repository.TicketRepository;
 import com.project.calendar.service.mapper.TicketMapper;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,17 +15,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static com.project.calendar.MockData.MOCK_TICKET;
 import static com.project.calendar.MockData.MOCK_TICKET_ENTITY;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -72,7 +70,7 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    public void showOneByPaymentIdShouldThrowInvalidEntityException(){
+    public void showOneByPaymentIdShouldThrowInvalidEntityException() {
         expectedException.expect(InvalidEntityException.class);
         expectedException.expectMessage("No tickets found");
 
@@ -82,7 +80,7 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    public void showOneByPaymentIdShouldReturnTicket(){
+    public void showOneByPaymentIdShouldReturnTicket() {
         when(ticketRepository.findFirstByPaymentId(anyLong())).thenReturn(Optional.of(TICKET_ENTITY));
         when(ticketMapper.mapTicketEntityToTicket(any(TicketEntity.class))).thenReturn(TICKET);
 
@@ -92,7 +90,7 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    public void showAllByPaymentIdAndUserIdShouldReturnEmptyEmptyList(){
+    public void showAllByPaymentIdAndUserIdShouldReturnEmptyEmptyList() {
         when(ticketRepository.findAllByPaymentIdAndUserId(anyLong(), anyLong())).thenReturn(emptyList());
 
         final List<Ticket> actual = ticketService.showAllByPaymentIdAndUserId(1L, 2L);
@@ -101,7 +99,7 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    public void showAllByPaymentIdAndUserIdShouldReturnTicketsList(){
+    public void showAllByPaymentIdAndUserIdShouldReturnTicketsList() {
         when(ticketRepository.findAllByPaymentIdAndUserId(anyLong(), anyLong())).thenReturn(singletonList(TICKET_ENTITY));
         when(ticketMapper.mapTicketEntityToTicket(any(TicketEntity.class))).thenReturn(TICKET);
 
