@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 
 @Service("ticketService")
-@AllArgsConstructor(onConstructor = @_(@Autowired))
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class TicketServiceImpl implements TicketService {
 

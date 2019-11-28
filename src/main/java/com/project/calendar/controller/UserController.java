@@ -108,7 +108,7 @@ public class UserController {
 
         final Payment payment = Payment.builder()
                 .paymentTime(LocalDateTime.now())
-                .ticketAmount(ticketAmount)
+                .ticketsAmount(ticketAmount)
                 .price(exposition.getTicketPrice().multiply(BigDecimal.valueOf(ticketAmount)))
                 .status(Status.PASSED)
                 .user(user)
@@ -118,7 +118,7 @@ public class UserController {
 
         final Payment lastPayment = paymentService.showLastByUserId(user.getId());
 
-        for (int i = 0; i < lastPayment.getTicketAmount(); i++) {
+        for (int i = 0; i < lastPayment.getTicketsAmount(); i++) {
             final Ticket ticket = Ticket.builder()
                     .validDate(date)
                     .user(user)
@@ -149,7 +149,7 @@ public class UserController {
             if (payment.getStatus() != Status.FAILED) {
                 final Ticket ticket = ticketService.showOneByPaymentId(payment.getId());
                 tickets.add(ticket);
-                ticketsAmount.add(payment.getTicketAmount());
+                ticketsAmount.add(payment.getTicketsAmount());
             }
         }
 

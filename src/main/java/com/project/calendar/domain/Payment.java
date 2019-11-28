@@ -20,7 +20,7 @@ public class Payment {
     private final Status status;
 
     @NotEmpty(message = "Please provide amount of tickets")
-    private final Integer ticketAmount;
+    private final Integer ticketsAmount;
 
     @NotEmpty(message = "Please provide price")
     private final BigDecimal price;

@@ -48,10 +48,8 @@ public class AdminController {
         final ModelAndView mav = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            System.out.println("General Error");
             mav.setViewName("admin-add-exposition");
         } else if (exposition.getStartDate().compareTo(exposition.getEndDate()) >= 0) {
-            System.out.println("Date error");
             mav.addObject("dateError", true);
             mav.setViewName("admin-add-exposition");
         } else {

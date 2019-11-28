@@ -1,6 +1,7 @@
 package com.project.calendar.converter;
 
 import com.project.calendar.domain.Exposition;
+import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.service.ExpositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class ExpositionConverter implements Converter<String, Exposition> {
     @Override
     public Exposition convert(String id) {
         final long parseId = Long.parseLong(id);
-        return expositionService.showById(parseId);
+        try {
+            return expositionService.showById(parseId);
+        } catch (InvalidEntityException e) {
+            return null;
+        }
     }
 }

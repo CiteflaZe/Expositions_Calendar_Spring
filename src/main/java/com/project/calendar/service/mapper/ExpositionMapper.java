@@ -53,6 +53,7 @@ public class ExpositionMapper {
         } else {
             final HallEntity hallEntity = new HallEntity();
             hallEntity.setId(exposition.getHall().getId());
+            hallEntity.setName(exposition.getHall().getName());
 
             return hallEntity;
         }

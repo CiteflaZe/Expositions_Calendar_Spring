@@ -1,93 +1,45 @@
 package com.project.calendar.service.mapper;
 
-import com.project.calendar.domain.Exposition;
 import com.project.calendar.domain.Payment;
-import com.project.calendar.domain.Status;
-import com.project.calendar.domain.User;
-import com.project.calendar.entity.ExpositionEntity;
 import com.project.calendar.entity.PaymentEntity;
-import com.project.calendar.entity.UserEntity;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static com.project.calendar.MockData.MOCK_PAYMENT;
+import static com.project.calendar.MockData.MOCK_PAYMENT_ENTITY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class PaymentMapperTest {
-    private static final Long ID = 9L;
-    private static final LocalDateTime PAYMENT_TIME = LocalDateTime.of(2019, 11, 12, 14, 15, 16);
-    private static final Status STATUS = Status.PASSED;
-    private static final BigDecimal PRICE = BigDecimal.valueOf(804.25);
-    private static final Integer TICKET_AMOUNT = 6;
 
-    private static final Payment PAYMENT = initPayment();
-    private static final PaymentEntity PAYMENT_ENTITY = initPaymentEntity();
+    private static final Payment PAYMENT = MOCK_PAYMENT;
+    private static final PaymentEntity PAYMENT_ENTITY = MOCK_PAYMENT_ENTITY;
 
 
-    private PaymentMapper mapper = new PaymentMapper();
+    private PaymentMapper paymentMapper = new PaymentMapper();
 
     @Test
     public void mapPaymentToPaymentEntityShouldReturnPaymentEntity() {
-        final PaymentEntity actual = mapper.mapPaymentToPaymentEntity(PAYMENT);
+        final PaymentEntity actual = paymentMapper.mapPaymentToPaymentEntity(PAYMENT);
 
-        assertThat(actual.getPaymentTime(), is(PAYMENT_TIME));
-        assertThat(actual.getStatus(), is(STATUS));
-        assertThat(actual.getPrice(), is(PRICE));
-        assertThat(actual.getTicketsAmount(), is(TICKET_AMOUNT));
-        assertThat(actual.getUser(), is(notNullValue()));
-        assertThat(actual.getExposition(), is(notNullValue()));
+        assertThat(actual.getPaymentTime(), is(MOCK_PAYMENT.getPaymentTime()));
+        assertThat(actual.getStatus(), is(MOCK_PAYMENT.getStatus()));
+        assertThat(actual.getPrice(), is(MOCK_PAYMENT.getPrice()));
+        assertThat(actual.getTicketsAmount(), is(MOCK_PAYMENT.getTicketsAmount()));
+        assertThat(actual.getUser().getId(), is(MOCK_PAYMENT.getUser().getId()));
+        assertThat(actual.getExposition().getId(), is(MOCK_PAYMENT.getExposition().getId()));
     }
 
     @Test
     public void mapPaymentEntityToPaymentShouldReturnPayment() {
-        final Payment actual = mapper.mapPaymentEntityToPayment(PAYMENT_ENTITY);
+        final Payment actual = paymentMapper.mapPaymentEntityToPayment(PAYMENT_ENTITY);
 
-        assertThat(actual.getId(), is(ID));
-        assertThat(actual.getPaymentTime(), is(PAYMENT_TIME));
-        assertThat(actual.getStatus(), is(STATUS));
-        assertThat(actual.getPrice(), is(PRICE));
-        assertThat(actual.getTicketAmount(), is(TICKET_AMOUNT));
-        assertThat(actual.getUser(), is(notNullValue()));
-        assertThat(actual.getExposition(), is(notNullValue()));
-    }
-
-    private static Payment initPayment() {
-        final User user = User.builder()
-                .id(1L)
-                .build();
-        final Exposition exposition = Exposition.builder()
-                .id(5L)
-                .build();
-
-        return Payment.builder()
-                .paymentTime(PAYMENT_TIME)
-                .status(STATUS)
-                .price(PRICE)
-                .ticketAmount(TICKET_AMOUNT)
-                .user(user)
-                .exposition(exposition)
-                .build();
-    }
-
-    private static PaymentEntity initPaymentEntity() {
-        final UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
-        final ExpositionEntity expositionEntity = new ExpositionEntity();
-        expositionEntity.setId(5L);
-
-        final PaymentEntity paymentEntity = new PaymentEntity();
-        paymentEntity.setId(ID);
-        paymentEntity.setPaymentTime(PAYMENT_TIME);
-        paymentEntity.setStatus(STATUS);
-        paymentEntity.setPrice(PRICE);
-        paymentEntity.setTicketsAmount(TICKET_AMOUNT);
-        paymentEntity.setUser(userEntity);
-        paymentEntity.setExposition(expositionEntity);
-
-        return paymentEntity;
+        assertThat(actual.getId(), is(PAYMENT_ENTITY.getId()));
+        assertThat(actual.getPaymentTime(), is(PAYMENT_ENTITY.getPaymentTime()));
+        assertThat(actual.getStatus(), is(PAYMENT_ENTITY.getStatus()));
+        assertThat(actual.getPrice(), is(PAYMENT_ENTITY.getPrice()));
+        assertThat(actual.getTicketsAmount(), is(PAYMENT_ENTITY.getTicketsAmount()));
+        assertThat(actual.getUser().getId(), is(PAYMENT_ENTITY.getUser().getId()));
+        assertThat(actual.getExposition().getId(), is(PAYMENT_ENTITY.getExposition().getId()));
     }
 
 }

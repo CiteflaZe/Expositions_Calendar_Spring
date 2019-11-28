@@ -19,7 +19,7 @@ import static java.util.Collections.*;
 import static java.util.stream.Collectors.*;
 
 @Service("paymentService")
-@AllArgsConstructor(onConstructor = @_(@Autowired))
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class PaymentServiceImpl implements PaymentService {
 

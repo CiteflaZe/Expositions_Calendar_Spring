@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 
 @Service("userService")
-@AllArgsConstructor(onConstructor = @_(@Autowired))
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class UserServiceImpl implements UserService {
 

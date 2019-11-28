@@ -8,14 +8,14 @@ import static org.hamcrest.core.Is.is;
 public class RoleTest {
 
     @Test
-    public void valueOfByNameShouldReturnDefaultRoleWithNull() {
+    public void valueOfByNameShouldReturnDefaultRoleWithNullInput() {
         final Role actual = Role.valueOfByName(null);
 
         assertThat(actual, is(Role.USER));
     }
 
     @Test
-    public void valueOfByNameShouldReturnDefaultRoleWithIllegalValue() {
+    public void valueOfByNameShouldReturnDefaultRoleWithIllegalValueInput() {
         final Role actual = Role.valueOfByName("something");
 
         assertThat(actual, is(Role.USER));

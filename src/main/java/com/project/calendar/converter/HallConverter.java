@@ -1,6 +1,7 @@
 package com.project.calendar.converter;
 
 import com.project.calendar.domain.Hall;
+import com.project.calendar.exception.InvalidEntityException;
 import com.project.calendar.service.HallService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class HallConverter implements Converter<String, Hall> {
     @Override
     public Hall convert(String id) {
         final long parseId = Long.parseLong(id);
-        return hallService.showById(parseId);
+        try {
+            return hallService.showById(parseId);
+        } catch (InvalidEntityException e) {
+            return null;
+        }
     }
 }

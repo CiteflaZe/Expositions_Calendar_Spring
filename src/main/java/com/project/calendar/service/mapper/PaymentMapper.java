@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentMapper {
 
-    public PaymentEntity mapPaymentToPaymentEntity(Payment payment){
+    public PaymentEntity mapPaymentToPaymentEntity(Payment payment) {
         final ExpositionEntity expositionEntity = new ExpositionEntity();
         expositionEntity.setId(payment.getExposition().getId());
 
@@ -22,14 +22,14 @@ public class PaymentMapper {
         paymentEntity.setPaymentTime(payment.getPaymentTime());
         paymentEntity.setStatus(payment.getStatus());
         paymentEntity.setPrice(payment.getPrice());
-        paymentEntity.setTicketsAmount(payment.getTicketAmount());
+        paymentEntity.setTicketsAmount(payment.getTicketsAmount());
         paymentEntity.setExposition(expositionEntity);
         paymentEntity.setUser(userEntity);
 
         return paymentEntity;
     }
 
-    public Payment mapPaymentEntityToPayment(PaymentEntity entity){
+    public Payment mapPaymentEntityToPayment(PaymentEntity entity) {
         final Exposition exposition = Exposition.builder()
                 .id(entity.getExposition().getId())
                 .title(entity.getExposition().getTitle())
@@ -44,7 +44,7 @@ public class PaymentMapper {
                 .paymentTime(entity.getPaymentTime())
                 .price(entity.getPrice())
                 .status(entity.getStatus())
-                .ticketAmount(entity.getTicketsAmount())
+                .ticketsAmount(entity.getTicketsAmount())
                 .exposition(exposition)
                 .user(user)
                 .build();

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 
 @Service("expositionService")
-@AllArgsConstructor(onConstructor = @_(@Autowired))
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class ExpositionServiceImpl implements ExpositionService {
 
