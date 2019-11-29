@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class HallConverter implements Converter<String, Hall> {
 
-    private HallService hallService;
+    private final HallService hallService;
 
     @Override
     public Hall convert(String id) {

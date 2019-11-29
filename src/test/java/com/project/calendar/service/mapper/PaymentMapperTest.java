@@ -32,13 +32,13 @@ public class PaymentMapperTest {
     public void mapPaymentEntityToPaymentShouldReturnPayment() {
         final Payment actual = paymentMapper.mapPaymentEntityToPayment(PAYMENT_ENTITY);
 
-        assertThat(actual.getId(), is(PAYMENT_ENTITY.getId()));
-        assertThat(actual.getPaymentTime(), is(PAYMENT_ENTITY.getPaymentTime()));
-        assertThat(actual.getStatus(), is(PAYMENT_ENTITY.getStatus()));
-        assertThat(actual.getPrice(), is(PAYMENT_ENTITY.getPrice()));
-        assertThat(actual.getTicketsAmount(), is(PAYMENT_ENTITY.getTicketsAmount()));
-        assertThat(actual.getUser().getId(), is(PAYMENT_ENTITY.getUser().getId()));
-        assertThat(actual.getExposition().getId(), is(PAYMENT_ENTITY.getExposition().getId()));
+        assertThat(actual.getId(), is(MOCK_PAYMENT_ENTITY.getId()));
+        assertThat(actual.getPaymentTime(), is(MOCK_PAYMENT_ENTITY.getPaymentTime()));
+        assertThat(actual.getStatus(), is(MOCK_PAYMENT_ENTITY.getStatus()));
+        assertThat(actual.getPrice(), is(MOCK_PAYMENT_ENTITY.getPrice()));
+        assertThat(actual.getTicketsAmount(), is(MOCK_PAYMENT_ENTITY.getTicketsAmount()));
+        assertThat(actual.getUser().getId(), is(MOCK_PAYMENT_ENTITY.getUser().getId()));
+        assertThat(actual.getExposition().getId(), is(MOCK_PAYMENT_ENTITY.getExposition().getId()));
     }
 
 }

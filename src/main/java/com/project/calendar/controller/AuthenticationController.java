@@ -40,6 +40,8 @@ public class AuthenticationController {
 
         final User user = userService.login(email, password);
 
+        System.out.println(user);
+
         session.setAttribute("user", user);
 
         if (user.getRole() == Role.ADMIN) {

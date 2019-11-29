@@ -30,11 +30,11 @@ public class HallMapperTest {
     public void mapHallEntityToHallShouldReturnHall() {
         final Hall actual = hallMapper.mapHallEntityToHall(HALL_ENTITY);
 
-        assertThat(actual.getId(), is(HALL_ENTITY.getId()));
-        assertThat(actual.getName(), is(HALL_ENTITY.getName()));
-        assertThat(actual.getCity(), is(HALL_ENTITY.getCity()));
-        assertThat(actual.getStreet(), is(HALL_ENTITY.getStreet()));
-        assertThat(actual.getHouseNumber(), is(HALL_ENTITY.getHouseNumber()));
+        assertThat(actual.getId(), is(MOCK_HALL_ENTITY.getId()));
+        assertThat(actual.getName(), is(MOCK_HALL_ENTITY.getName()));
+        assertThat(actual.getCity(), is(MOCK_HALL_ENTITY.getCity()));
+        assertThat(actual.getStreet(), is(MOCK_HALL_ENTITY.getStreet()));
+        assertThat(actual.getHouseNumber(), is(MOCK_HALL_ENTITY.getHouseNumber()));
     }
 
 }

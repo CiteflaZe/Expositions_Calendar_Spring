@@ -13,13 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller("/admin")
+@Controller
+@RequestMapping("/admin")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AdminController {
 
@@ -28,12 +30,12 @@ public class AdminController {
     private final UserService userService;
     private final ValidatePagination validatePagination;
 
-    @GetMapping("/admin")
+    @GetMapping("")
     public String main() {
         return "admin-page";
     }
 
-    @GetMapping("admin/add-exposition")
+    @GetMapping("/add-exposition")
     public ModelAndView addExpositionPage() {
         final ModelAndView modelAndView = new ModelAndView("admin-add-exposition");
 
@@ -43,7 +45,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PostMapping("admin/add-exposition")
+    @PostMapping("/add-exposition")
     public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult) {
         final ModelAndView modelAndView = new ModelAndView();
 
@@ -60,7 +62,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("admin/add-hall")
+    @GetMapping("/add-hall")
     public ModelAndView addHallPage() {
         final ModelAndView modelAndView = new ModelAndView("admin-add-hall");
 
@@ -70,7 +72,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("admin/add-hall")
+    @PostMapping("/add-hall")
     public ModelAndView addHall(@Valid Hall hall, BindingResult bindingResult) {
         final ModelAndView modelAndView = new ModelAndView();
 
@@ -84,7 +86,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("admin/users")
+    @GetMapping("/users")
     public ModelAndView showUsers(@RequestParam("page") String stringPage,
                                   @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView modelAndView = new ModelAndView("admin-users");
@@ -105,7 +107,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("admin/halls")
+    @GetMapping("/halls")
     public ModelAndView showHalls() {
         final ModelAndView modelAndView = new ModelAndView("admin-halls");
 
@@ -115,7 +117,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("admin/expositions")
+    @GetMapping("/expositions")
     public ModelAndView showExpositions(@RequestParam("page") String stringPage,
                                         @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView modelAndView = new ModelAndView("admin-expositions");

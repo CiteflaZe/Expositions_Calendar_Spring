@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 @Service("userService")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         return entities.isEmpty() ? emptyList() :
                 entities.stream()
                         .map(userMapper::mapUserEntityToUser)
-                        .collect(Collectors.toList());
+                        .collect(toList());
     }
 
     @Override
