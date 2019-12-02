@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,23 +31,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final UserMapper userMapper;
-
-    @Override
-    public User login(String email, String password) {
-        final Optional<UserEntity> entity = userRepository.findByEmail(email);
-
-        if (!entity.isPresent()) {
-            log.warn("No user found with such email");
-            throw new InvalidLoginException("No user found with such email");
-        }
-
-        if (encoder.matches(password, entity.get().getPassword())) {
-            return userMapper.mapUserEntityToUser(entity.get());
-        }
-
-        log.warn("Incorrect password");
-        throw new InvalidLoginException("Incorrect email or password");
-    }
 
     @Override
     public void register(User user) {
@@ -75,5 +60,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long showEntriesAmount() {
         return userRepository.count();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email){
+        if(email == null){
+            log.warn("Email is null");
+            throw new IllegalArgumentException("Email is null");
+        }
+        final Optional<UserEntity> entity = userRepository.findByEmail(email);
+
+        if (!entity.isPresent()) {
+            log.warn("No user found with such email");
+            throw new InvalidLoginException("No user found with such email");
+        }
+
+        return userMapper.mapUserEntityToUser(entity.get());
+
     }
 }

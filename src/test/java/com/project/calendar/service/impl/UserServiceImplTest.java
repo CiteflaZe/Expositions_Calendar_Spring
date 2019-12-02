@@ -61,40 +61,40 @@ public class UserServiceImplTest {
         reset(userRepository, encoder, userMapper);
     }
 
-    @Test
-    public void loginShouldThrowInvalidLoginException() {
-        expectedException.expect(InvalidLoginException.class);
-        expectedException.expectMessage("No user found with such email");
-
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-
-        userService.login(USER.getEmail(), USER.getPassword());
-    }
-
-    @Test
-    public void loginShouldThrowInvalidLoginExceptionWithIncorrectPassword() {
-        expectedException.expect(InvalidLoginException.class);
-        expectedException.expectMessage("Incorrect email or password");
-
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
-        when(encoder.matches(anyString(), anyString())).thenReturn(false);
-
-        userService.login(USER.getEmail(), USER.getPassword());
-    }
-
-    @Test
-    public void loginShouldReturnUser() {
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
-        when(encoder.matches(anyString(), anyString())).thenReturn(true);
-        when(userMapper.mapUserEntityToUser(any(UserEntity.class))).thenReturn(USER);
-
-        final User actual = userService.login(USER.getEmail(), USER.getPassword());
-
-        assertThat(actual.getName(), is(MOCK_USER_ENTITY.getName()));
-        assertThat(actual.getSurname(), is(MOCK_USER_ENTITY.getSurname()));
-        assertThat(actual.getEmail(), is(MOCK_USER_ENTITY.getEmail()));
-        assertThat(actual.getPassword(), is(MOCK_USER_ENTITY.getPassword()));
-    }
+//    @Test
+//    public void loginShouldThrowInvalidLoginException() {
+//        expectedException.expect(InvalidLoginException.class);
+//        expectedException.expectMessage("No user found with such email");
+//
+//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+//
+//        userService.login(USER.getEmail(), USER.getPassword());
+//    }
+//
+//    @Test
+//    public void loginShouldThrowInvalidLoginExceptionWithIncorrectPassword() {
+//        expectedException.expect(InvalidLoginException.class);
+//        expectedException.expectMessage("Incorrect email or password");
+//
+//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
+//        when(encoder.matches(anyString(), anyString())).thenReturn(false);
+//
+//        userService.login(USER.getEmail(), USER.getPassword());
+//    }
+//
+//    @Test
+//    public void loginShouldReturnUser() {
+//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
+//        when(encoder.matches(anyString(), anyString())).thenReturn(true);
+//        when(userMapper.mapUserEntityToUser(any(UserEntity.class))).thenReturn(USER);
+//
+//        final User actual = userService.login(USER.getEmail(), USER.getPassword());
+//
+//        assertThat(actual.getName(), is(MOCK_USER_ENTITY.getName()));
+//        assertThat(actual.getSurname(), is(MOCK_USER_ENTITY.getSurname()));
+//        assertThat(actual.getEmail(), is(MOCK_USER_ENTITY.getEmail()));
+//        assertThat(actual.getPassword(), is(MOCK_USER_ENTITY.getPassword()));
+//    }
 
     @Test
     public void registerShouldThrowEmailAlreadyExistException() {

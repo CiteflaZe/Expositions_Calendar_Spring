@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +46,11 @@ public class UserController {
     private final ValidatePagination validatePagination;
 
     @GetMapping("/user")
-    public String main() {
+    public String main(HttpSession session) {
+        final User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        session.setAttribute("user", user);
+
         return "user-page";
     }
 

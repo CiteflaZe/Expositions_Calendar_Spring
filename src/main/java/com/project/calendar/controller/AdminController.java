@@ -11,6 +11,7 @@ import com.project.calendar.service.UserService;
 import com.project.calendar.service.util.ValidatePagination;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,7 +36,11 @@ public class AdminController {
     private final ValidatePagination validatePagination;
 
     @GetMapping("")
-    public String main() {
+    public String main(HttpSession session) {
+        final User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        session.setAttribute("user", user);
+
         return "admin-page";
     }
 

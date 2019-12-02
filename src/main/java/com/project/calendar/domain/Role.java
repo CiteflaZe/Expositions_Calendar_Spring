@@ -1,8 +1,10 @@
 package com.project.calendar.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Arrays;
 
-public enum Role {
+public enum Role implements GrantedAuthority {
     ADMIN("Admin"), USER("User");
 
     private String description;
@@ -21,5 +23,10 @@ public enum Role {
                 .filter(x -> x.name().equalsIgnoreCase(roleName))
                 .findAny()
                 .orElse(Role.USER);
+    }
+
+    @Override
+    public String getAuthority() {
+        return name();
     }
 }

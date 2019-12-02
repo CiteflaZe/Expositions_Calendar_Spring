@@ -44,8 +44,6 @@ public class PDFCreator {
         Map<String, Paragraph> paragraphNameToParagraph = createParagraphs(fontNameToFont.get("titleFont"));
         final List<String> keys = new ArrayList<>(paragraphNameToParagraph.keySet());
 
-        System.out.println(keys);
-
         Chunk separator = new Chunk(":", fontNameToFont.get("separatorFont"));
 
         for (Ticket ticket : tickets) {

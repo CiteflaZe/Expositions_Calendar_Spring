@@ -1,17 +1,14 @@
 package com.project.calendar.controller;
 
-import com.project.calendar.domain.Exposition;
 import com.project.calendar.domain.Hall;
 import com.project.calendar.domain.User;
 import com.project.calendar.exception.DownloadTicketsException;
 import com.project.calendar.exception.EmailAlreadyExistException;
-import com.project.calendar.exception.ExpositionAlreadyExistException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.IllegalPaginationValuesException;
-import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.exception.InvalidLoginException;
 import com.project.calendar.exception.PDFCreationException;
-import com.project.calendar.service.HallService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;

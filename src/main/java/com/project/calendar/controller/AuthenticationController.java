@@ -1,6 +1,5 @@
 package com.project.calendar.controller;
 
-import com.project.calendar.domain.Role;
 import com.project.calendar.domain.User;
 import com.project.calendar.service.UserService;
 import lombok.AllArgsConstructor;
@@ -30,27 +29,6 @@ public class AuthenticationController {
     @GetMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @PostMapping("/login")
-    public ModelAndView signIn(HttpSession session,
-                               @RequestParam(name = "email") String email,
-                               @RequestParam(name = "password") String password) {
-        final ModelAndView modelAndView = new ModelAndView();
-
-        final User user = userService.login(email, password);
-
-        session.setAttribute("user", user);
-
-        if (user.getRole() == Role.ADMIN) {
-            modelAndView.setViewName("redirect:/admin");
-        } else if (user.getRole() == Role.USER) {
-            modelAndView.setViewName("redirect:/user");
-        } else {
-            modelAndView.setViewName("redirect:/");
-        }
-
-        return modelAndView;
     }
 
     @GetMapping("/register")
