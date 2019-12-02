@@ -37,7 +37,7 @@
                 <td th:text="${exposition.getHall().getName()}"></td>
                 <td>
                     <form th:action="@{/user/choose-date}" method="post">
-                        <input type="hidden" name="exposition" th:value="${exposition.getId()}"/>
+                        <input type="hidden" name="expositionId" th:value="${exposition.getId()}"/>
                         <button type="submit" class="btn btn-success" th:text="#{user.showExpositions.order}"></button>
                     </form>
                 </td>

@@ -3,7 +3,7 @@ package com.project.calendar.service.impl;
 import com.project.calendar.domain.Hall;
 import com.project.calendar.entity.HallEntity;
 import com.project.calendar.exception.HallAlreadyExistException;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.mapper.HallMapper;
@@ -47,7 +47,7 @@ public class HallServiceImpl implements HallService {
 
         if (!entity.isPresent()) {
             log.warn("There is no hall with this id");
-            throw new InvalidEntityException("There is no hall with this id");
+            throw new EntityNotFoundException("There is no hall with this id");
         }
 
         return hallMapper.mapHallEntityToHall(entity.get());

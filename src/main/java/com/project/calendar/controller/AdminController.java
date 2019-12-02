@@ -3,6 +3,8 @@ package com.project.calendar.controller;
 import com.project.calendar.domain.Exposition;
 import com.project.calendar.domain.Hall;
 import com.project.calendar.domain.User;
+import com.project.calendar.exception.EntityNotFoundException;
+import com.project.calendar.exception.ExpositionAlreadyExistException;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.UserService;
@@ -11,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,13 +49,25 @@ public class AdminController {
     }
 
     @PostMapping("/add-exposition")
-    public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult) {
+    public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult,
+                                      @RequestParam("hallId") Long hallId) {
         final ModelAndView modelAndView = new ModelAndView();
+        Hall hall;
+        try {
+            hall = hallService.showById(hallId);
+        } catch (EntityNotFoundException e) {
+            hall = null;
+        }
+        exposition.setHall(hall);
 
+        modelAndView.addObject("halls", hallService.showAll());
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("admin-add-exposition");
         } else if (exposition.getStartDate().compareTo(exposition.getEndDate()) >= 0) {
             modelAndView.addObject("dateError", true);
+            modelAndView.setViewName("admin-add-exposition");
+        } else if (exposition.getHall() == null) {
+            modelAndView.addObject("hallError", true);
             modelAndView.setViewName("admin-add-exposition");
         } else {
             expositionService.add(exposition);
@@ -133,6 +148,16 @@ public class AdminController {
         modelAndView.addObject("numberOfPages", numberOfPages);
         modelAndView.addObject("page", page);
         modelAndView.addObject("rowCount", rowCount);
+
+        return modelAndView;
+    }
+
+    @ExceptionHandler(ExpositionAlreadyExistException.class)
+    public ModelAndView handleExpositionAlreadyExistException() {
+        final ModelAndView modelAndView = new ModelAndView("admin-add-exposition");
+        modelAndView.addObject("expositionError", true);
+        modelAndView.addObject("halls", hallService.showAll());
+        modelAndView.addObject("exposition", new Exposition());
 
         return modelAndView;
     }

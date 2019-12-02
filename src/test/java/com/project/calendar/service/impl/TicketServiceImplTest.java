@@ -2,7 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Ticket;
 import com.project.calendar.entity.TicketEntity;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.TicketRepository;
 import com.project.calendar.service.mapper.TicketMapper;
 import org.junit.After;
@@ -71,7 +71,7 @@ public class TicketServiceImplTest {
 
     @Test
     public void showOneByPaymentIdShouldThrowInvalidEntityException() {
-        expectedException.expect(InvalidEntityException.class);
+        expectedException.expect(EntityNotFoundException.class);
         expectedException.expectMessage("No tickets found");
 
         when(ticketRepository.findFirstByPaymentId(anyLong())).thenReturn(Optional.empty());

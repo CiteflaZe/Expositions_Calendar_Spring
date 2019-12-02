@@ -3,7 +3,7 @@ package com.project.calendar.service.impl;
 import com.project.calendar.domain.Exposition;
 import com.project.calendar.entity.ExpositionEntity;
 import com.project.calendar.exception.ExpositionAlreadyExistException;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.ExpositionRepository;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.mapper.ExpositionMapper;
@@ -53,7 +53,7 @@ public class ExpositionServiceImpl implements ExpositionService {
 
         if (!entity.isPresent()) {
             log.warn("There is no exposition with this id");
-            throw new InvalidEntityException("There is no exposition with this id");
+            throw new EntityNotFoundException("There is no exposition with this id");
         }
 
         return expositionMapper.mapExpositionEntityToExposition(entity.get());

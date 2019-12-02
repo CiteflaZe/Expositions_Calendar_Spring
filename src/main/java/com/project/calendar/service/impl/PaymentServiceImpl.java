@@ -2,7 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Payment;
 import com.project.calendar.entity.PaymentEntity;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.PaymentRepository;
 import com.project.calendar.service.PaymentService;
 import com.project.calendar.service.mapper.PaymentMapper;
@@ -52,7 +52,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         return paymentEntity
                 .map(paymentMapper::mapPaymentEntityToPayment)
-                .orElseThrow(() -> new InvalidEntityException("No payments found"));
+                .orElseThrow(() -> new EntityNotFoundException("No payments found"));
 
     }
 }

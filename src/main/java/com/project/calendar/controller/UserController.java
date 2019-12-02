@@ -71,10 +71,10 @@ public class UserController {
     }
 
     @PostMapping("user/choose-date")
-    public ModelAndView chooseDate(@RequestParam("exposition") Exposition exposition, HttpSession session) {
+    public ModelAndView chooseDate(@RequestParam("expositionId") Long expositionId, HttpSession session) {
         final ModelAndView modelAndView = new ModelAndView("user-choose-date");
 
-        session.setAttribute("exposition", exposition);
+        session.setAttribute("exposition", expositionService.showById(expositionId));
 
         return modelAndView;
     }

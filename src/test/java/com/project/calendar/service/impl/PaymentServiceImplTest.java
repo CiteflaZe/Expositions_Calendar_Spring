@@ -2,7 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Payment;
 import com.project.calendar.entity.PaymentEntity;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.PaymentRepository;
 import com.project.calendar.service.mapper.PaymentMapper;
 import org.junit.After;
@@ -91,7 +91,7 @@ public class PaymentServiceImplTest {
 
     @Test
     public void showLastByUserIdShouldThrowInvalidEntityException(){
-        expectedException.expect(InvalidEntityException.class);
+        expectedException.expect(EntityNotFoundException.class);
         expectedException.expectMessage("No payments found");
 
         when(paymentRepository.findFirstByUserIdOrderByIdDesc(anyLong())).thenReturn(Optional.empty());

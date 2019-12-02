@@ -12,26 +12,26 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BCryptPasswordEncoder encoder;
+//
+//    @Autowired
+//    private DataSource dataSource;
 
-    @Autowired
-    private DataSource dataSource;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.
-                jdbcAuthentication()
-                .usersByUsernameQuery("SELECT email, password, id FROM users WHERE email = ?")
-                .authoritiesByUsernameQuery("SELECT email, role FROM users WHERE email = ?")
-                .dataSource(dataSource)
-                .passwordEncoder(encoder);
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//        auth.
+//                jdbcAuthentication()
+//                .usersByUsernameQuery("SELECT email, password, id FROM users WHERE email = ?")
+//                .authoritiesByUsernameQuery("SELECT email, role FROM users WHERE email = ?")
+//                .dataSource(dataSource)
+//                .passwordEncoder(encoder);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

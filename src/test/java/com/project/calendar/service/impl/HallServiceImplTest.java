@@ -3,7 +3,7 @@ package com.project.calendar.service.impl;
 import com.project.calendar.domain.Hall;
 import com.project.calendar.entity.HallEntity;
 import com.project.calendar.exception.HallAlreadyExistException;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.mapper.HallMapper;
 import org.junit.After;
@@ -82,7 +82,7 @@ public class HallServiceImplTest {
 
     @Test
     public void showByIdShouldThrowInvalidEntityException() {
-        expectedException.expect(InvalidEntityException.class);
+        expectedException.expect(EntityNotFoundException.class);
         expectedException.expectMessage("There is no hall with this id");
 
         when(hallRepository.findById(anyLong())).thenReturn(Optional.empty());

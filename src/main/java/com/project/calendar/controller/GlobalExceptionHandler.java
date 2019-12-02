@@ -8,14 +8,18 @@ import com.project.calendar.exception.EmailAlreadyExistException;
 import com.project.calendar.exception.ExpositionAlreadyExistException;
 import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.IllegalPaginationValuesException;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.exception.InvalidLoginException;
 import com.project.calendar.exception.PDFCreationException;
+import com.project.calendar.service.HallService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidLoginException.class)
@@ -35,15 +39,6 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-    @ExceptionHandler(ExpositionAlreadyExistException.class)
-    public ModelAndView handleExpositionAlreadyExistException() {
-        final ModelAndView modelAndView = new ModelAndView("admin-add-exposition");
-        modelAndView.addObject("expositionError", true);
-        modelAndView.addObject("exposition", new Exposition());
-
-        return modelAndView;
-    }
-
     @ExceptionHandler(HallAlreadyExistException.class)
     public ModelAndView handleHallAlreadyExistException() {
         final ModelAndView modelAndView = new ModelAndView("admin-add-hall");
@@ -54,7 +49,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {IllegalPaginationValuesException.class,
-            InvalidEntityException.class,
+            EntityNotFoundException.class,
             PDFCreationException.class,
             DownloadTicketsException.class,
             IllegalArgumentException.class})

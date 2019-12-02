@@ -46,10 +46,10 @@
                     <textarea name="description" th:field="*{description}" type="text" class="form-control" id="description" maxlength="500" rows="5" required></textarea>
                 </div>
                 <div class="col-sm-3 my-1">
-                    <label for="halls" th:text="#{admin.addExposition.hall}"></label>
-                    <label class="text-danger" for="halls" th:if="${#fields.hasErrors('hall')}" th:errors="*{hall}"></label>
-                    <select name="halls" th:field="*{hall}" id="halls" class="custom-select custom-select-lg mb-3">
-                        <option th:each="hallObj : ${halls}" th:value="${hallObj.id}" th:text="${hallObj.getName()}"></option>
+                    <label for="hallId" th:text="#{admin.addExposition.hall}"></label>
+                    <label class="text-danger" for="hallId" th:if="${hallError}" th:text="#{admin.addExposition.hallError}"></label>
+                    <select name="hallId" id="hallId" class="custom-select custom-select-lg mb-3">
+                        <option th:each="hall : ${halls}" th:value="${hall.getId()}" th:text="${hall.getName()}"></option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary" th:text="#{admin.submit}"></button>

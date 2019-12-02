@@ -39,7 +39,6 @@ public class Exposition {
     @NotEmpty(message = "Please provide exposition description")
     private String description;
 
-    @NotNull(message = "Please provide valid hall")
     private Hall hall;
 
 }

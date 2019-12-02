@@ -2,7 +2,7 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Ticket;
 import com.project.calendar.entity.TicketEntity;
-import com.project.calendar.exception.InvalidEntityException;
+import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.repository.TicketRepository;
 import com.project.calendar.service.TicketService;
 import com.project.calendar.service.mapper.TicketMapper;
@@ -41,7 +41,7 @@ public class TicketServiceImpl implements TicketService {
     public Ticket showOneByPaymentId(Long id) {
         final Optional<TicketEntity> ticketEntity = ticketRepository.findFirstByPaymentId(id);
 
-        return ticketEntity.map(ticketMapper::mapTicketEntityToTicket).orElseThrow(() -> new InvalidEntityException("No tickets found"));
+        return ticketEntity.map(ticketMapper::mapTicketEntityToTicket).orElseThrow(() -> new EntityNotFoundException("No tickets found"));
     }
 
     public List<Ticket> showAllByPaymentIdAndUserId(Long paymentId, Long userId) {
