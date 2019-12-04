@@ -12,8 +12,9 @@
 <div class="wrapper">
     <div th:replace="user-sidebar :: sidebar"></div>
     <div id="content">
-        <table class="table table-striped table-responsive-md btn-table">
-            <thead class="thead-dark">
+        <h2 th:if="${expositions.isEmpty()}" th:text="#{list.empty}" ></h2>
+        <table class="table table-striped table-responsive-md btn-table" th:unless="${expositions.isEmpty()}">
+            <thead>
             <tr>
                 <th scope="col" th:text="#{user.showExpositions.title}"></th>
                 <th scope="col" th:text="#{user.showExpositions.theme}"></th>
@@ -44,6 +45,9 @@
             </tr>
             </tbody>
         </table>
+        <th:block th:unless="${expositions.isEmpty()}">
+            <div th:replace="pagination :: pagination"></div>
+        </th:block>
     </div>
 </div>
 

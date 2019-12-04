@@ -13,8 +13,9 @@
 <div class="wrapper">
     <div th:replace="admin-sidebar :: sidebar"></div>
     <div id="content">
-        <table class="table table-striped table-responsive-md btn-table">
-            <thead>
+        <h2 th:if="${users.isEmpty()}" th:text="#{list.empty}"></h2>
+        <table class="table table-striped table-responsive-md btn-table" th:unless="${users.isEmpty()}">
+            <thead class="thead-dark">
             <tr>
                 <th scope="col" th:text="#{admin.showUsers.id}"></th>
                 <th scope="col" th:text="#{admin.showUsers.name}"></th>
@@ -34,7 +35,9 @@
             </tr>
             </tbody>
         </table>
-        <div th:replace="pagination :: pagination"></div>
+        <th:block th:unless="${users.isEmpty()}">
+            <div th:replace="pagination :: pagination"></div>
+        </th:block>
     </div>
 </div>
 </body>

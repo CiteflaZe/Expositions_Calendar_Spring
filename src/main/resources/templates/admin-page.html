@@ -13,7 +13,7 @@
     <div class="wrapper">
         <div th:replace="admin-sidebar :: sidebar"></div>
         <div id="content">
-<!--            <h2 th:text="#{user.welcome} + ' ' + *{name} + ' ' +  *{surname}" th:object="${session.user}"></h2>-->
+            <h2 th:text="#{user.welcome} + ' ' + *{name} + ' ' +  *{surname}" th:object="${session.user}"></h2>
             <p th:text="#{user.message}"></p>
         </div>
     </div>

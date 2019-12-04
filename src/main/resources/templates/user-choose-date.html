@@ -50,8 +50,8 @@
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
             format: 'yyyy-mm-dd',
-            startDate: '+0d',
-            endDate: /*[[${session.exposition.getEndDate().toString()}]]*/ 'endDate',
+            startDate: /*[[${startDate}]]*/ 'startDate',
+            endDate: /*[[${session.exposition.getEndDate()}]]*/ 'endDate',
             container: container,
             todayHighlight: true,
             autoclose: true
