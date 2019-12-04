@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TicketMapper {
 
-    public TicketEntity mapTicketToTicketEntity(Ticket ticket){
+    public TicketEntity mapTicketToTicketEntity(Ticket ticket) {
         final ExpositionEntity expositionEntity = new ExpositionEntity();
         expositionEntity.setId(ticket.getExposition().getId());
 
@@ -32,7 +32,7 @@ public class TicketMapper {
         return ticketEntity;
     }
 
-    public Ticket mapTicketEntityToTicket(TicketEntity entity){
+    public Ticket mapTicketEntityToTicket(TicketEntity entity) {
         final Hall hall = Hall.builder()
                 .id(entity.getExposition().getHall().getId())
                 .name(entity.getExposition().getHall().getName())

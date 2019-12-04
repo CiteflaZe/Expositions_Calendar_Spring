@@ -7,7 +7,6 @@ import com.project.calendar.exception.EmailAlreadyExistException;
 import com.project.calendar.exception.EntityNotFoundException;
 import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.IllegalPaginationValuesException;
-import com.project.calendar.exception.InvalidLoginException;
 import com.project.calendar.exception.PDFCreationException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(InvalidLoginException.class)
-    public ModelAndView handleInvalidLoginException() {
-        final ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("loginError", true);
-
-        return modelAndView;
-    }
 
     @ExceptionHandler(EmailAlreadyExistException.class)
     public ModelAndView handleEmailAlreadyExistException() {

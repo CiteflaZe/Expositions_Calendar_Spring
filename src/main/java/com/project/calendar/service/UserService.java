@@ -12,4 +12,5 @@ public interface UserService extends UserDetailsService {
     List<User> showAll(Integer page, Integer rowCount);
 
     Long showEntriesAmount();
+
 }

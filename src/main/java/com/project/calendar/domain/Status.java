@@ -15,7 +15,7 @@ public enum Status {
         return description;
     }
 
-    public static Status valueOfByName(String statusName){
+    public static Status valueOfByName(String statusName) {
         return Arrays.stream(Status.values())
                 .filter(x -> x.name().equalsIgnoreCase(statusName))
                 .findAny()

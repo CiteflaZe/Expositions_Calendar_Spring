@@ -5,6 +5,7 @@ import com.project.calendar.domain.Exposition;
 import java.util.List;
 
 public interface ExpositionService {
+
     void add(Exposition exposition);
 
     Exposition showById(Long id);
@@ -16,4 +17,5 @@ public interface ExpositionService {
     Long showEntriesAmount();
 
     Long showNotFinishedEntriesAmount();
+
 }

@@ -1,4 +1,4 @@
-package com.project.calendar.service.util;
+package com.project.calendar.service.helper;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -26,6 +26,11 @@ import java.util.Set;
 @Component
 @Log4j
 public class PDFCreator {
+
+    static {
+        final File folder = new File("tickets");
+        folder.mkdir();
+    }
 
     public String createPDF(Long paymentId, List<Ticket> tickets) {
         Document document = new Document();
@@ -107,7 +112,7 @@ public class PDFCreator {
         return paragraphs;
     }
 
-    private void fill(Map<String, Font> fonts, Paragraph paragraph, String content, String stringText, Chunk separator, Document document){
+    private void fill(Map<String, Font> fonts, Paragraph paragraph, String content, String stringText, Chunk separator, Document document) {
         Chunk chunk = new Chunk(content, fonts.get("paragraphFont")).setUnderline(1f, -2f);
         Chunk text = new Chunk(" " + stringText, fonts.get("chunkFont"));
         paragraph.add(chunk);

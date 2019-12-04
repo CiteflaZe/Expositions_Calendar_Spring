@@ -2,8 +2,8 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Hall;
 import com.project.calendar.entity.HallEntity;
-import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.EntityNotFoundException;
+import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.mapper.HallMapper;
@@ -26,12 +26,12 @@ public class HallServiceImpl implements HallService {
 
     @Override
     public void add(Hall hall) {
-        if(hall == null){
+        if (hall == null) {
             log.warn("Hall is null");
             throw new IllegalArgumentException("Hall is null");
         }
 
-        if(hallRepository.findByName(hall.getName()).isPresent()){
+        if (hallRepository.findByName(hall.getName()).isPresent()) {
             log.warn("Hall with this name already exists");
             throw new HallAlreadyExistException("Hall with this name already exists");
         }
@@ -43,6 +43,11 @@ public class HallServiceImpl implements HallService {
 
     @Override
     public Hall showById(Long id) {
+        if (id == null) {
+            log.warn("Id is null");
+            throw new EntityNotFoundException("There is no hall with this id");
+        }
+
         final Optional<HallEntity> entity = hallRepository.findById(id);
 
         if (!entity.isPresent()) {

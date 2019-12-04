@@ -18,7 +18,7 @@ public enum Role implements GrantedAuthority {
         return description;
     }
 
-    public static Role valueOfByName(String roleName){
+    public static Role valueOfByName(String roleName) {
         return Arrays.stream(Role.values())
                 .filter(x -> x.name().equalsIgnoreCase(roleName))
                 .findAny()

@@ -8,7 +8,6 @@ import com.project.calendar.exception.ExpositionAlreadyExistException;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.HallService;
 import com.project.calendar.service.UserService;
-import com.project.calendar.service.util.ValidatePagination;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,12 +27,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class AdminController {
+public class AdminController implements PaginationUtility {
 
     private final HallService hallService;
     private final ExpositionService expositionService;
     private final UserService userService;
-    private final ValidatePagination validatePagination;
 
     @GetMapping("")
     public String main(HttpSession session) {
@@ -56,8 +54,9 @@ public class AdminController {
 
     @PostMapping("/add-exposition")
     public ModelAndView addExposition(@Valid Exposition exposition, BindingResult bindingResult,
-                                      @RequestParam("hallId") Long hallId) {
+                                      @RequestParam(value = "hallId", required = false) Long hallId) {
         final ModelAndView modelAndView = new ModelAndView();
+
         Hall hall;
         try {
             hall = hallService.showById(hallId);
@@ -112,18 +111,15 @@ public class AdminController {
                                   @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView modelAndView = new ModelAndView("admin-users");
 
-        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, userService.showEntriesAmount(), ValidatePagination.DEFAULT_USER_ROW_COUNT);
-        final int page = paginationParameters[0];
-        final int rowCount = paginationParameters[1];
-        final int numberOfPages = paginationParameters[2];
+        validatePagination(stringPage, stringRowCount);
 
+        final int page = Integer.parseInt(stringPage);
+        final int rowCount = Integer.parseInt(stringRowCount);
         final List<User> users = userService.showAll(page - 1, rowCount);
 
+        paginate(page, rowCount, userService.showEntriesAmount(), modelAndView, "/admin/users");
+
         modelAndView.addObject("users", users);
-        modelAndView.addObject("command", "/admin/users");
-        modelAndView.addObject("numberOfPages", numberOfPages);
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("rowCount", rowCount);
 
         return modelAndView;
     }
@@ -143,17 +139,15 @@ public class AdminController {
                                         @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView modelAndView = new ModelAndView("admin-expositions");
 
-        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
-        final int page = paginationParameters[0];
-        final int rowCount = paginationParameters[1];
-        final int numberOfPages = paginationParameters[2];
+        validatePagination(stringPage, stringRowCount);
 
+        final int page = Integer.parseInt(stringPage);
+        final int rowCount = Integer.parseInt(stringRowCount);
         final List<Exposition> expositions = expositionService.showAll(page - 1, rowCount);
+
+        paginate(page, rowCount, expositionService.showEntriesAmount(), modelAndView, "/admin/expositions");
+
         modelAndView.addObject("expositions", expositions);
-        modelAndView.addObject("command", "/admin/expositions");
-        modelAndView.addObject("numberOfPages", numberOfPages);
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("rowCount", rowCount);
 
         return modelAndView;
     }

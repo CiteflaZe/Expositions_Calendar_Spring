@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 @Service("ticketService")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -41,11 +41,19 @@ public class TicketServiceImpl implements TicketService {
     public Ticket showOneByPaymentId(Long id) {
         final Optional<TicketEntity> ticketEntity = ticketRepository.findFirstByPaymentId(id);
 
-        return ticketEntity.map(ticketMapper::mapTicketEntityToTicket).orElseThrow(() -> new EntityNotFoundException("No tickets found"));
+        return ticketEntity.map(ticketMapper::mapTicketEntityToTicket)
+                .orElseThrow(() -> new EntityNotFoundException("No tickets found"));
     }
 
     public List<Ticket> showAllByPaymentIdAndUserId(Long paymentId, Long userId) {
         final List<TicketEntity> tickets = ticketRepository.findAllByPaymentIdAndUserId(paymentId, userId);
+        return mapTicketEntityListToTicketList(tickets);
+    }
+
+    @Override
+    public List<Ticket> showAllByUserId(Long id) {
+        final List<TicketEntity> tickets = ticketRepository.findAllByUserId(id);
+
         return mapTicketEntityListToTicketList(tickets);
     }
 
@@ -54,6 +62,6 @@ public class TicketServiceImpl implements TicketService {
                 emptyList() :
                 tickets.stream()
                         .map(ticketMapper::mapTicketEntityToTicket)
-                        .collect(Collectors.toList());
+                        .collect(toList());
     }
 }

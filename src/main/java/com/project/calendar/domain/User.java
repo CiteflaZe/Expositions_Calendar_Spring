@@ -1,6 +1,5 @@
 package com.project.calendar.domain;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +27,7 @@ public class User implements UserDetails {
 
     @NotEmpty(message = "Please provide password")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,15}$", message = "Password should be 5 to 15 characters long")
-    @Setter(AccessLevel.PUBLIC)
+    @Setter
     private String password;
 
     @NotEmpty(message = "Please provide name")

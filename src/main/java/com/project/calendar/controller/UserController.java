@@ -9,8 +9,7 @@ import com.project.calendar.exception.DownloadTicketsException;
 import com.project.calendar.service.ExpositionService;
 import com.project.calendar.service.PaymentService;
 import com.project.calendar.service.TicketService;
-import com.project.calendar.service.util.PDFCreator;
-import com.project.calendar.service.util.ValidatePagination;
+import com.project.calendar.service.helper.PDFCreator;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +34,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.LocalDate.now;
+
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class UserController {
+public class UserController implements PaginationUtility {
 
     private final ExpositionService expositionService;
     private final TicketService ticketService;
     private final PaymentService paymentService;
     private final PDFCreator pdfCreator;
-    private final ValidatePagination validatePagination;
 
     @GetMapping("/user")
     public String main(HttpSession session) {
@@ -59,35 +59,37 @@ public class UserController {
                                         @RequestParam("rowCount") String stringRowCount) {
         final ModelAndView modelAndView = new ModelAndView("user-view-expositions");
 
-        final Integer[] paginationParameters = validatePagination.validate(stringPage, stringRowCount, expositionService.showNotFinishedEntriesAmount(), ValidatePagination.DEFAULT_EXPOSITION_ROW_COUNT);
-        final int page = paginationParameters[0];
-        final int rowCount = paginationParameters[1];
-        final int numberOfPages = paginationParameters[2];
+        validatePagination(stringPage, stringRowCount);
 
+        final int page = Integer.parseInt(stringPage);
+        final int rowCount = Integer.parseInt(stringRowCount);
         final List<Exposition> expositions = expositionService.showAllNotFinished(page - 1, rowCount);
 
+        paginate(page, rowCount, expositionService.showNotFinishedEntriesAmount(), modelAndView, "/user/expositions");
+
         modelAndView.addObject("expositions", expositions);
-        modelAndView.addObject("command", "/user/expositions");
-        modelAndView.addObject("numberOfPages", numberOfPages);
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("rowCount", rowCount);
 
         return modelAndView;
     }
 
     @PostMapping("user/choose-date")
-    public ModelAndView chooseDate(@RequestParam("expositionId") Long expositionId, HttpSession session) {
+    public ModelAndView chooseDate(HttpSession session,
+                                   @RequestParam("expositionId") Long expositionId) {
         final ModelAndView modelAndView = new ModelAndView("user-choose-date");
 
-        session.setAttribute("exposition", expositionService.showById(expositionId));
+        final Exposition exposition = expositionService.showById(expositionId);
+        session.setAttribute("exposition", exposition);
+        modelAndView.addObject("startDate", now().compareTo(exposition.getStartDate()) >= 0 ?
+                now() :
+                exposition.getStartDate());
 
         return modelAndView;
     }
 
     @PostMapping("user/checkout")
-    public ModelAndView checkout(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-                                 @RequestParam("tickets") Integer ticketAmount,
-                                 HttpSession session) {
+    public ModelAndView checkoutPage(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+                                     @RequestParam("tickets") Integer ticketAmount,
+                                     HttpSession session) {
         final ModelAndView modelAndView = new ModelAndView("user-checkout-page");
 
         final Exposition exposition = (Exposition) session.getAttribute("exposition");
@@ -145,13 +147,11 @@ public class UserController {
         final User user = (User) session.getAttribute("user");
 
         final List<Payment> payments = paymentService.showAllByUserId(user.getId());
-        final List<Ticket> tickets = new ArrayList<>();
+        final List<Ticket> tickets = ticketService.showAllByUserId(user.getId());
         final List<Integer> ticketsAmount = new ArrayList<>();
 
         for (Payment payment : payments) {
             if (payment.getStatus() != Status.FAILED) {
-                final Ticket ticket = ticketService.showOneByPaymentId(payment.getId());
-                tickets.add(ticket);
                 ticketsAmount.add(payment.getTicketsAmount());
             }
         }
@@ -163,7 +163,8 @@ public class UserController {
     }
 
     @GetMapping("user/download")
-    public void downloadFileFromLocal(HttpServletResponse response, HttpSession session, @RequestParam("paymentId") Long paymentId) {
+    public void downloadFileFromLocal(HttpServletResponse response, HttpSession session,
+                                      @RequestParam("paymentId") Long paymentId) {
         final Long userId = ((User) session.getAttribute("user")).getId();
         final List<Ticket> tickets = ticketService.showAllByPaymentIdAndUserId(paymentId, userId);
         final String filePath = pdfCreator.createPDF(paymentId, tickets);
