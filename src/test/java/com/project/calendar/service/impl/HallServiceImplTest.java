@@ -2,8 +2,8 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Hall;
 import com.project.calendar.entity.HallEntity;
-import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.exception.EntityNotFoundException;
+import com.project.calendar.exception.HallAlreadyExistException;
 import com.project.calendar.repository.HallRepository;
 import com.project.calendar.service.mapper.HallMapper;
 import org.junit.After;
@@ -48,7 +48,7 @@ public class HallServiceImplTest {
     private HallServiceImpl hallService;
 
     @After
-    public void resetMocks(){
+    public void resetMocks() {
         reset(hallRepository, hallMapper);
     }
 

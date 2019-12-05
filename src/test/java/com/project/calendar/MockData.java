@@ -61,6 +61,7 @@ public class MockData {
 
     private static User initUser() {
         return User.builder()
+                .id(USER_ID)
                 .email(USER_EMAIL)
                 .password(USER_PASSWORD)
                 .name(USER_NAME)
@@ -83,6 +84,7 @@ public class MockData {
 
     private static Hall initHall() {
         return Hall.builder()
+                .id(HALL_ID)
                 .name(HALL_NAME)
                 .city(HALL_CITY)
                 .street(HALL_STREET)
@@ -103,6 +105,7 @@ public class MockData {
 
     private static Exposition initExposition() {
         return Exposition.builder()
+                .id(EXPOSITION_ID)
                 .title(EXPOSITION_TITLE)
                 .theme(EXPOSITION_THEME)
                 .startDate(EXPOSITION_START_DATE)
@@ -129,6 +132,7 @@ public class MockData {
 
     private static Payment initPayment() {
         return Payment.builder()
+                .id(PAYMENT_ID)
                 .paymentTime(PAYMENT_TIME)
                 .status(PAYMENT_STATUS)
                 .price(PAYMENT_PRICE)
@@ -153,6 +157,7 @@ public class MockData {
 
     private static Ticket initTicket() {
         return Ticket.builder()
+                .id(TICKET_ID)
                 .validDate(TICKET_VALID_DATE)
                 .user(MOCK_USER)
                 .exposition(MOCK_EXPOSITION)
@@ -160,14 +165,14 @@ public class MockData {
                 .build();
     }
 
-    private static TicketEntity initTicketEntity(){
+    private static TicketEntity initTicketEntity() {
         final TicketEntity ticketEntity = new TicketEntity();
         ticketEntity.setId(TICKET_ID);
         ticketEntity.setValidDate(TICKET_VALID_DATE);
         ticketEntity.setUser(MOCK_USER_ENTITY);
         ticketEntity.setExposition(MOCK_EXPOSITION_ENTITY);
         ticketEntity.setPayment(MOCK_PAYMENT_ENTITY);
-        
+
         return ticketEntity;
     }
 

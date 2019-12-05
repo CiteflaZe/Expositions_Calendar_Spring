@@ -2,8 +2,8 @@ package com.project.calendar.service.impl;
 
 import com.project.calendar.domain.Exposition;
 import com.project.calendar.entity.ExpositionEntity;
-import com.project.calendar.exception.ExpositionAlreadyExistException;
 import com.project.calendar.exception.EntityNotFoundException;
+import com.project.calendar.exception.ExpositionAlreadyExistException;
 import com.project.calendar.repository.ExpositionRepository;
 import com.project.calendar.service.mapper.ExpositionMapper;
 import org.junit.After;
@@ -56,7 +56,7 @@ public class ExpositionServiceImplTest {
     private ExpositionServiceImpl expositionService;
 
     @After
-    public void resetMocks(){
+    public void resetMocks() {
         reset(expositionRepository, expositionMapper);
     }
 

@@ -6,6 +6,7 @@ import com.project.calendar.exception.EmailAlreadyExistException;
 import com.project.calendar.exception.InvalidLoginException;
 import com.project.calendar.repository.UserRepository;
 import com.project.calendar.service.mapper.UserMapper;
+import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -60,41 +62,6 @@ public class UserServiceImplTest {
     public void resetMocks() {
         reset(userRepository, encoder, userMapper);
     }
-
-//    @Test
-//    public void loginShouldThrowInvalidLoginException() {
-//        expectedException.expect(InvalidLoginException.class);
-//        expectedException.expectMessage("No user found with such email");
-//
-//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-//
-//        userService.login(USER.getEmail(), USER.getPassword());
-//    }
-//
-//    @Test
-//    public void loginShouldThrowInvalidLoginExceptionWithIncorrectPassword() {
-//        expectedException.expect(InvalidLoginException.class);
-//        expectedException.expectMessage("Incorrect email or password");
-//
-//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
-//        when(encoder.matches(anyString(), anyString())).thenReturn(false);
-//
-//        userService.login(USER.getEmail(), USER.getPassword());
-//    }
-//
-//    @Test
-//    public void loginShouldReturnUser() {
-//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
-//        when(encoder.matches(anyString(), anyString())).thenReturn(true);
-//        when(userMapper.mapUserEntityToUser(any(UserEntity.class))).thenReturn(USER);
-//
-//        final User actual = userService.login(USER.getEmail(), USER.getPassword());
-//
-//        assertThat(actual.getName(), is(MOCK_USER_ENTITY.getName()));
-//        assertThat(actual.getSurname(), is(MOCK_USER_ENTITY.getSurname()));
-//        assertThat(actual.getEmail(), is(MOCK_USER_ENTITY.getEmail()));
-//        assertThat(actual.getPassword(), is(MOCK_USER_ENTITY.getPassword()));
-//    }
 
     @Test
     public void registerShouldThrowEmailAlreadyExistException() {
@@ -146,6 +113,35 @@ public class UserServiceImplTest {
 
         verify(userRepository).count();
         assertThat(actual, is(5L));
+    }
+
+    @Test
+    public void loadUserByUsernameShouldThrowIllegalArgumentException(){
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Email is null");
+
+        userService.loadUserByUsername(null);
+    }
+
+    @Test
+    public void loadUserByUsernameShouldThrowInvalidLoginException(){
+        expectedException.expect(InvalidLoginException.class);
+        expectedException.expectMessage("No user found with such email");
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        userService.loadUserByUsername("email@gmail.com");
+    }
+
+    @Test
+    public void loadUserByUsernameShouldReturnUser(){
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(USER_ENTITY));
+        when(userMapper.mapUserEntityToUser(any(UserEntity.class))).thenReturn(USER);
+
+        final UserDetails actual = userService.loadUserByUsername("email@gmail.com");
+
+        assertThat(actual.getUsername(), is(USER.getEmail()));
+        assertThat(actual.getAuthorities().size(), is(1));
     }
 
 }

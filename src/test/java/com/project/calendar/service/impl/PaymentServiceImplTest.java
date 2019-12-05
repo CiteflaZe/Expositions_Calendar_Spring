@@ -48,7 +48,7 @@ public class PaymentServiceImplTest {
     private PaymentServiceImpl paymentService;
 
     @After
-    public void resetMocks(){
+    public void resetMocks() {
         reset(paymentRepository, paymentMapper);
     }
 
@@ -90,7 +90,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void showLastByUserIdShouldThrowInvalidEntityException(){
+    public void showLastByUserIdShouldThrowInvalidEntityException() {
         expectedException.expect(EntityNotFoundException.class);
         expectedException.expectMessage("No payments found");
 
@@ -100,7 +100,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void showLastByUserIdShouldReturnPayment(){
+    public void showLastByUserIdShouldReturnPayment() {
         when(paymentRepository.findFirstByUserIdOrderByIdDesc(anyLong())).thenReturn(Optional.of(PAYMENT_ENTITY));
         when(paymentMapper.mapPaymentEntityToPayment(any(PaymentEntity.class))).thenReturn(PAYMENT);
 

@@ -107,6 +107,16 @@ public class TicketServiceImplTest {
 
         assertThat(actual, is(not(emptyList())));
         assertThat(actual, hasItem(TICKET));
+    }
 
+    @Test
+    public void showAllByUserIdShouldReturnTicketsList(){
+        when(ticketRepository.findAllByUserId(anyLong())).thenReturn(singletonList(TICKET_ENTITY));
+        when(ticketMapper.mapTicketEntityToTicket(any(TicketEntity.class))).thenReturn(TICKET);
+
+        final List<Ticket> actual = ticketService.showAllByUserId(2L);
+
+        assertThat(actual, is(not(emptyList())));
+        assertThat(actual, hasItem(TICKET));
     }
 }

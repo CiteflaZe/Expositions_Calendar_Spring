@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static com.project.calendar.MockData.MOCK_USER;
 import static com.project.calendar.MockData.MOCK_USER_ENTITY;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -34,7 +33,7 @@ public class UserMapperTest {
 
         assertThat(actual.getId(), is(MOCK_USER_ENTITY.getId()));
         assertThat(actual.getEmail(), is(MOCK_USER_ENTITY.getEmail()));
-        assertThat(actual.getPassword(), is(nullValue()));
+        assertThat(actual.getPassword(), is(MOCK_USER_ENTITY.getPassword()));
         assertThat(actual.getName(), is(MOCK_USER_ENTITY.getName()));
         assertThat(actual.getSurname(), is(MOCK_USER_ENTITY.getSurname()));
         assertThat(actual.getRole(), is(MOCK_USER_ENTITY.getRole()));
