@@ -78,6 +78,7 @@ public class UserController implements PaginationUtility {
         final ModelAndView modelAndView = new ModelAndView("user-choose-date");
 
         final Exposition exposition = expositionService.showById(expositionId);
+
         session.setAttribute("exposition", exposition);
         modelAndView.addObject("startDate", now().compareTo(exposition.getStartDate()) >= 0 ?
                 now() :

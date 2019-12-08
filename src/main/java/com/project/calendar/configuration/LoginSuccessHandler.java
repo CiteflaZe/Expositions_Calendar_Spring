@@ -19,7 +19,7 @@ import java.util.List;
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Override
-    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         final String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {

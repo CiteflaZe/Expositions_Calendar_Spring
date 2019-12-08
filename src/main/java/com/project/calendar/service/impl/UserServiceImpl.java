@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
             log.warn("Email is null");
             throw new IllegalArgumentException("Email is null");
         }
+
         final Optional<UserEntity> entity = userRepository.findByEmail(email);
 
         if (!entity.isPresent()) {
